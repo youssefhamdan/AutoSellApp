@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, TextInput } from "react-native";
-import {
-    View,
-    Text,
-    Picker,
-} from 'react-native';
+import { View, Text, Picker, } from 'react-native';
 import { Button } from 'react-native-elements';
-function HomeScreen({ navigation }) {
+import { Camera, CameraResultType } from '@capacitor/camera';
+
+function AddCar({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
+    const [imagePath, setImagePath] = useState("");
+
 
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
@@ -16,8 +16,26 @@ function HomeScreen({ navigation }) {
             .catch((error) => console.error(error))
     }, []);
 
+    const takePicture = async () => {
+        try {
+            const cameraResult = await Camera.getPhoto({
+                quality: 90,
+                //allowEditing: true,
+                resultType: CameraResultType.Uri,
+            });
 
-    console.log(allMakes)
+            const path = cameraResult?.path || cameraResult?.webPath;
+
+            setImagePath(path);
+
+            console.log(imagePath);
+
+            return true;
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    //console.log(allMakes)
 
     return (
         <>
@@ -45,35 +63,27 @@ function HomeScreen({ navigation }) {
                     placeholder="Modele"
                 />
                 <TextInput
-                    style={styles.input}
-                    placeholder="Prix"
+                    style={styles.inputDes}
+                    multiline
+                    numberOfLines={4}
+                    placeholder="Description"
+                    onChangeText={text => onChangeText(text)}
                 />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Année"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Carburant"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Kilométrage"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Puissance"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Boite"
-                />
+
+                <View style={styles.check}>
+                    <Button
+                        onPress={takePicture}
+                        title="ADD PHOTO"
+                        type="solid"
+                    />
+                </View>
+
                 <View style={styles.check}>
                     <Button
                         onPress={() =>
-                            navigation.navigate('List')
+                            navigation.navigate('carPage')
                         }
-                        title="Rechercher"
+                        title="Insert the car"
                         type="solid"
                     />
                 </View>
@@ -92,6 +102,15 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         backgroundColor: 'white',
     },
+    inputDes: {
+        height: 200,
+        margin: 12,
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        borderColor: 'black',
+        backgroundColor: 'white',
+    },
     check: {
         padding: 10,
         color: "#f5f200"
@@ -100,4 +119,4 @@ const styles = StyleSheet.create({
 
 
 
-export default HomeScreen;
+export default AddCar;

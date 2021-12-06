@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Title } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 
-function suplistCar() {
+function suplistCar({navigation}) {
     const [posts, setPosts] = useState([])
     const [post, setPost] = useState({ title: "", url: "" })
     const { title, url } = post
@@ -45,7 +45,9 @@ function suplistCar() {
                                 </Card.Content>
                                 <Card.Cover source={{ uri: post.url }} />
                                 <Card.Actions>
-                                    <Button>ENTER</Button>
+                                    <Button onPress={() =>
+                            navigation.navigate('CarPage')
+                        }>ENTER</Button>
                                 </Card.Actions>
 
                             </Card>

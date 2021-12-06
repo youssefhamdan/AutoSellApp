@@ -3,12 +3,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen'
 import ListCar from './listCar'
 import suplistCar from './suplistcar';
+import AddCar from './AddCar';
 import carPage from './carPage'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   return (
+
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
@@ -20,24 +22,14 @@ function MyTabs() {
           ),
         }}
       />
+      
       <Tab.Screen
-        name="3 Résultats de la recherche "
-        component={suplistCar}
+        name="Insert a car"
+        component={AddCar}
         options={{
-          tabBarLabel: 'List',
+          tabBarLabel: 'Insert',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="apps" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="About"
-        component={carPage}
-        options={{
-          headerShown: false,
-          tabBarLabel: 'About',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="copyright" color={color} size={size} />
+            <MaterialCommunityIcons name="message-plus" color={color} size={size} />
           ),
         }}
       />
