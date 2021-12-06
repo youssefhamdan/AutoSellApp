@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen'
-import ListCar from './listCar'
-import suplistCar from './suplistcar';
+import ListCar from './ListCar'
+import SuplistCar from './SuplistCar';
 import AddCar from './AddCar';
-import carPage from './carPage'
+import carPage from './CarPage'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+export default function NavBar() {
   return (
 
     <Tab.Navigator>
@@ -37,4 +37,3 @@ function MyTabs() {
   );
 }
 
-export default MyTabs;

@@ -6,19 +6,28 @@ import {
     Picker,
 } from 'react-native';
 import { Button } from 'react-native-elements';
-function HomeScreen({ navigation }) {
+import {supabase} from "../client";
+export default function HomeScreen({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
+    const [allModels, SetAllModels] = useState([]);
 
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
-            .then((json) => SetAllMakes(json.makes))
+            .then((json) => SetAllMakes(json.makes.slice(800,900)))
             .catch((error) => console.error(error))
     }, []);
 
 
+
     console.log(allMakes)
 
+    async function selectCarModels(make,id) {
+       SetAllModels(allMakes[id].models)
+
+
+
+    }
     return (
         <>
 
@@ -26,13 +35,14 @@ function HomeScreen({ navigation }) {
 
                 <Picker
                     style={styles.input}
+                    onValueChange={(itemValue, itemIndex) => selectCarModels(itemValue,itemIndex)}
                 >
 
                     {
 
                         allMakes.map((u, i) => {
                             return (
-                                <Picker.Item label={u.name} value={u.name} />
+                                <Picker.Item label={u.name} value={u.name}/>
                             )
                         })
                     }
@@ -40,10 +50,21 @@ function HomeScreen({ navigation }) {
 
                 </Picker>
 
-                <TextInput
+                <Picker
                     style={styles.input}
-                    placeholder="Modele"
-                />
+                >
+
+                    {
+
+                        allModels.map((u, i) => {
+                            return (
+                                <Picker.Item label={u.name} value={u.name}/>
+                            )
+                        })
+                    }
+
+
+                </Picker>
                 <TextInput
                     style={styles.input}
                     placeholder="Prix"
@@ -100,4 +121,3 @@ const styles = StyleSheet.create({
 
 
 
-export default HomeScreen;

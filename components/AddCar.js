@@ -4,7 +4,7 @@ import { View, Text, Picker, } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Camera, CameraResultType } from '@capacitor/camera';
 
-function AddCar({ navigation }) {
+export default function AddCar({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
     const [imagePath, setImagePath] = useState("");
 
@@ -91,7 +91,6 @@ function AddCar({ navigation }) {
         </>
     );
 }
-
 const styles = StyleSheet.create({
     input: {
         height: 40,
@@ -116,7 +115,3 @@ const styles = StyleSheet.create({
         color: "#f5f200"
     }
 });
-
-
-
-export default AddCar;

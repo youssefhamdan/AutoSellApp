@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import { Divider } from 'react-native-elements';
 
-function carPage() {
+export default function CarPage() {
     return (
         <ScrollView>
             <View>
@@ -30,4 +30,3 @@ function carPage() {
         </ScrollView>
     );
 }
-export default carPage;
