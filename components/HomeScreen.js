@@ -6,7 +6,7 @@ import {
     Picker,
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import {supabase} from "../client";
+
 export default function HomeScreen({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
 
 
 
-    console.log(allMakes)
+   // console.log(allMakes)
 
     async function selectCarModels(make,id) {
        SetAllModels(allMakes[id].models)
@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation }) {
 
                         allMakes.map((u, i) => {
                             return (
-                                <Picker.Item label={u.name} value={u.name}/>
+                                <Picker.Item key={i} label={u.name} value={u.name}/>
                             )
                         })
                     }
@@ -58,7 +58,7 @@ export default function HomeScreen({ navigation }) {
 
                         allModels.map((u, i) => {
                             return (
-                                <Picker.Item label={u.name} value={u.name}/>
+                                <Picker.Item key={i} label={u.name} value={u.name}/>
                             )
                         })
                     }

@@ -2,27 +2,36 @@ import { supabase } from '../client';
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Title } from 'react-native-paper';
 import {ScrollView, TextInput} from 'react-native';
+import 'react-native-url-polyfill/auto';
 
 export default function SuplistCar({navigation}) {
     const [posts, setPosts] = useState([])
     const [post, setPost] = useState({ title: "", url: "" })
     const { title, url } = post
 
-    useEffect(() => { fetchPosts() }, [])
-
-    async function fetchPosts() {
+    useEffect(() => { 
+        (async () => {
         const { data } = await supabase
             .from('posts')
-            .select()
-        setPosts(data)
-        console.log("data:", data)
+            .select();
+            setPost(data);
+        })();
+    }, [])
+
+    async function fetchPosts() {
+        
+        //console.log("data:", data)
     }
+
 
     async function createPost() {
         await supabase.from('posts').insert([{ title, url }], { returning: 'minimal' })
         setPost({ title: "", content: "" })
         fetchPosts()
     }
+
+    console.log("qqdq",posts);
+    
     return (
         <>
             <ScrollView>
@@ -35,8 +44,12 @@ export default function SuplistCar({navigation}) {
                     onChange={e => setPost({ ...post, url: e.target.value })}
                 />
                 <Button onClick={createPost}> Create Post </Button>
+               
+
+
                 {
                     posts.map(post => {
+                        
                         return (
                             <Card>
 
@@ -47,7 +60,7 @@ export default function SuplistCar({navigation}) {
                                 <Card.Actions>
                                     <Button onPress={() =>
                             navigation.navigate('CarPage')
-                        }><Text>ENTER</Text></Button>
+                        }>ENTER</Button>
                                 </Card.Actions>
 
                             </Card>

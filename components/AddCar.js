@@ -50,7 +50,7 @@ export default function AddCar({ navigation }) {
 
                         allMakes.map((u, i) => {
                             return (
-                                <Picker.Item label={u.name} value={u.name} />
+                                <Picker.Item key={i} label={u.name} value={u.name} />
                             )
                         })
                     }

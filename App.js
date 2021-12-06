@@ -7,7 +7,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './components/HomeScreen';
 import SuplistCar from './components/SuplistCar';
 import carPage from './components/CarPage';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +32,6 @@ export default function App() {
     </>
   );
 }
-defineCustomElements(window);
 
 const styles = StyleSheet.create({
   container: {
