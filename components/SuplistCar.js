@@ -10,16 +10,14 @@ export default function SuplistCar({navigation}) {
     const { title, url } = post
 
     useEffect(() => { 
-        (async () => {
-        const { data } = await supabase
-            .from('posts')
-            .select();
-            setPost(data);
-        })();
+       fetchPosts()
     }, [])
 
     async function fetchPosts() {
-        
+        const { data } = await supabase
+            .from('posts')
+            .select();
+            setPosts(data);
         //console.log("data:", data)
     }
 
