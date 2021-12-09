@@ -3,9 +3,9 @@ import { SafeAreaView, StyleSheet, TextInput } from "react-native";
 import {
     View,
     Text,
-    Picker,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import {Picker} from '@react-native-picker/picker';
 
 export default function HomeScreen({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
@@ -31,8 +31,8 @@ export default function HomeScreen({ navigation }) {
     return (
         <>
 
-            <SafeAreaView>
-
+            <SafeAreaView styles={styles.body}>
+                <Text style={styles.text} > Marque </Text>
                 <Picker
                     style={styles.input}
                     onValueChange={(itemValue, itemIndex) => selectCarModels(itemValue,itemIndex)}
@@ -112,11 +112,21 @@ const styles = StyleSheet.create({
         padding: 10,
         borderColor: 'black',
         backgroundColor: 'white',
+        
     },
     check: {
         padding: 10,
         color: "#f5f200"
+    },
+    body: {
+        backgroundColor: '#f5f200',
+    },
+    text: {
+        marginLeft:12,
+        marginTop:12
+    
     }
+    
 });
 
 

@@ -46,13 +46,13 @@ export default function SuplistCar({navigation}) {
 
 
                 {
-                    posts.map(post => {
+                    posts.map((post,i) => {
                         
                         return (
                             <Card>
 
                                 <Card.Content>
-                                    <Title>{post.title}</Title>
+                                    <Title key={i} >{ post.title}</Title>
                                 </Card.Content>
                                 <Card.Cover source={{ uri: post.url }} />
                                 <Card.Actions>
