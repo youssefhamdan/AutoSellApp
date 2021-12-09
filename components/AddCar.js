@@ -1,62 +1,67 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, TextInput } from "react-native";
-import { View, Text, Picker, } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import * as ImagePicker from 'expo-image-picker';
+import { supabase } from '../client';
+
 
 export default function AddCar({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
-    const [imagePath, setImagePath] = useState("");
+    const [image, setImagePath] = useState(null);
 
 
     useEffect(() => {
-        fetch('https://listing-creation.api.autoscout24.com/makes')
-            .then((response) => response.json())
-            .then((json) => SetAllMakes(json.makes))
-            .catch((error) => console.error(error))
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
+            }
+        })();
     }, []);
 
-    const takePicture = async () => {
-        try {
-            const cameraResult = await Camera.getPhoto({
-                quality: 90,
-                //allowEditing: true,
-                resultType: CameraResultType.Uri,
+    const uploadImage = async (path) => {
+        const response = await fetch(path);
+        const blob = await (response.blob())
+        const filename = path.substr(path.lastIndexOf("/") + 1)
+        const { data, error } = await supabase
+            .storage
+            .from('image-bucket')
+            .upload(`public/${filename}`, blob, {
+                cacheControl: '3600',
+                upsert: false
             });
 
-            const path = cameraResult?.path || cameraResult?.webPath;
+        if (error) alert(error.message);
 
-            setImagePath(path);
-
-            console.log(imagePath);
-
-            return true;
-        } catch (e) {
-            console.log(e)
-        }
+        console.log(data);
     }
-    //console.log(allMakes)
+
+    const takePicture = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log("RES",result);
+
+        if (!result.cancelled) {
+            setImagePath(result.uri);
+            uploadImage(result.uri);
+        }
+    };
+
+
 
     return (
         <>
 
             <SafeAreaView>
 
-                <Picker
-                    style={styles.input}
-                >
-
-                    {
-
-                        allMakes.map((u, i) => {
-                            return (
-                                <Picker.Item key={i} label={u.name} value={u.name} />
-                            )
-                        })
-                    }
-
-
-                </Picker>
 
                 <TextInput
                     style={styles.input}
@@ -76,13 +81,13 @@ export default function AddCar({ navigation }) {
                         title="ADD PHOTO"
                         type="solid"
                     />
+                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
                 </View>
 
                 <View style={styles.check}>
                     <Button
-                        onPress={() =>
-                            navigation.navigate('carPage')
-                        }
+                        
                         title="Insert the car"
                         type="solid"
                     />
