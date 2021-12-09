@@ -1,133 +1,191 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, TextInput } from "react-native";
+import React, {useEffect, useState} from "react";
+import {SafeAreaView, StyleSheet, TextInput} from "react-native";
 import {
     View,
     Text,
+    Picker
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import {Picker} from '@react-native-picker/picker';
+import {Button} from 'react-native-elements';
+import {supabase} from "../client";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({navigation}) {
+    const [post, setPost] = useState({
+        fabricant: "",
+        modele: "",
+        carburant: "",
+        km: "",
+        prix: 0,
+        annee: "",
+        puissance: "",
+        img: "https://cloud.leparking.fr/2021/08/23/01/06/seat-leon-seat-leon-1p-2-0-tdi-07-preto_8248044968.jpg",
+        boite: ""
+    })
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
+    const {fabricant, modele, prix, carburant, km, annee, puissance, boite} = post
 
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
-            .then((json) => SetAllMakes(json.makes.slice(800,900)))
+            .then((json) => SetAllMakes(json.makes.slice(800, 900)))
             .catch((error) => console.error(error))
     }, []);
 
-
-
-   // console.log(allMakes)
-
-    async function selectCarModels(make,id) {
-       SetAllModels(allMakes[id].models)
-
-
+    async function createPost() {
+        console.log(post)
+        await supabase.from('posts').insert([{
+            fabricant,
+            modele,
+            carburant,
+            km,
+            prix,
+            annee,
+            puissance,
+            img:"https://cloud.leparking.fr/2021/08/23/01/06/seat-leon-seat-leon-1p-2-0-tdi-07-preto_8248044968.jpg",
+            boite
+        }], {returning: 'minimal'})
+        setPost({
+            fabricant: "",
+            modele: "",
+            carburant: "",
+            km: 0,
+            prix: 0,
+            annee: 0,
+            puissance: 0,
+            img: "https://cloud.leparking.fr/2021/08/23/01/06/seat-leon-seat-leon-1p-2-0-tdi-07-preto_8248044968.jpg",
+            boite: ""
+        })
 
     }
-    return (
-        <>
-
-            <SafeAreaView styles={styles.body}>
-                <Text style={styles.text} > Marque </Text>
-                <Picker
-                    style={styles.input}
-                    onValueChange={(itemValue, itemIndex) => selectCarModels(itemValue,itemIndex)}
-                >
-
-                    {
-
-                        allMakes.map((u, i) => {
-                            return (
-                                <Picker.Item key={i} label={u.name} value={u.name}/>
-                            )
-                        })
-                    }
 
 
-                </Picker>
+    async function selectCarModels(make, id) {
+        SetAllModels(allMakes[id].models)
+    }
+    async function selectCarModelss(make) {
 
-                <Picker
-                    style={styles.input}
-                >
+        console.log("j'affiche"+make)
+    }
+        return (
+            <>
 
-                    {
+                <SafeAreaView>
 
-                        allModels.map((u, i) => {
-                            return (
-                                <Picker.Item key={i} label={u.name} value={u.name}/>
-                            )
-                        })
-                    }
+                    <Picker
+                        style={styles.input}
+                        onValueChange={(itemValue, itemIndex) => setPost({
+                            ...post,
+                            fabricant: itemValue
+                        }, selectCarModels(itemValue, itemIndex))}
+                        // onValueChange={(itemValue, itemIndex) => selectCarModels(itemValue,itemIndex)}
+                        // onChange={e => setPost({ ...post, fabricant: e.target.value })}
+                    >
 
+                        {
 
-                </Picker>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Prix"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Année"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Carburant"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Kilométrage"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Puissance"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Boite"
-                />
-                <View style={styles.check}>
-                    <Button
-                        onPress={() =>
-                            navigation.navigate('List')
+                            allMakes.map((u, i) => {
+                                return (
+                                    <Picker.Item label={u.name} value={u.name}/>
+                                )
+                            })
                         }
-                        title="Rechercher"
-                        type="solid"
-                    />
-                </View>
-            </SafeAreaView>
-        </>
-    );
-}
 
-const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        borderColor: 'black',
-        backgroundColor: 'white',
-        
-    },
-    check: {
-        padding: 10,
-        color: "#f5f200"
-    },
-    body: {
-        backgroundColor: '#f5f200',
-    },
-    text: {
-        marginLeft:12,
-        marginTop:12
-    
+
+                    </Picker>
+                    <Picker
+                        style={styles.input}
+                        onValueChange={(itemValue) => setPost({...post, modele: itemValue})}>
+
+                        {
+
+                            allModels.map((u, i) => {
+                                return (
+                                    <Picker.Item label={u.name} value={u.name}/>
+                                )
+                            })
+                        }
+
+
+                    </Picker>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Prix"
+
+                        value={prix}
+                        keyboardType="numeric"
+                        onChange={e => setPost({ ...post, prix: e.target.value })}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Année"
+                        keyboardType="numeric"
+                        value={annee}
+                        onChange={e => setPost({...post, annee: e.target.value})}
+                    />
+                    <Picker
+                        style={styles.input}
+                        value={carburant}
+                        onValueChange={(itemValue) => setPost({...post, carburant: itemValue})}
+                    >
+
+                        <Picker.Item label="Carburant" value=""/>
+                        <Picker.Item label="Essence" value="Essence"/>
+                        <Picker.Item label="Diesel" value="Diesel"/>
+                        <Picker.Item label="Hybride" value="Hybride"/>
+                    </Picker>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Kilométrage"
+                        keyboardType="numeric"
+                        onChange={e => setPost({...post, km: e.target.value})}
+                    />
+                    <TextInput
+                        keyboardType="numeric"
+                        style={styles.input}
+                        placeholder="Puissance"
+                        onChange={e => setPost({...post, puissance: e.target.value})}
+                    />
+                    <Picker
+                        style={styles.input}
+                        value={boite}
+                        onValueChange={(itemValue) => setPost({...post, boite: itemValue})}
+                    >
+                        <Picker.Item label="Boite de vitesse" value=""/>
+                        <Picker.Item label="Manuelle" value="Manuelle"/>
+                        <Picker.Item label="Automatique" value="Automatique"/>
+                    </Picker>
+                    <View style={styles.check}>
+                        <Button
+                            //onPress={() =>
+                            //    navigation.navigate('List')
+                            //}
+                             onPress={() =>
+                                 createPost()
+                             }
+                            title="Rechercher"
+                            type="solid"
+                        />
+                    </View>
+                </SafeAreaView>
+            </>
+        );
     }
-    
-});
+
+    const styles = StyleSheet.create({
+        input: {
+            height: 40,
+            margin: 12,
+            borderWidth: 1,
+            borderRadius: 5,
+            padding: 10,
+            borderColor: 'black',
+            backgroundColor: 'white',
+        },
+        check: {
+            padding: 10,
+            color: "#f5f200"
+        }
+    });
 
 
 
