@@ -91,7 +91,7 @@ export default function HomeScreen({navigation}) {
 
                         allMakes.map((u, i) => {
                             return (
-                                <Picker.Item label={u.name} value={u.name}/>
+                                <Picker.Item key={i} label={u.name} value={u.name}/>
                             )
                         })
                     }
@@ -106,7 +106,7 @@ export default function HomeScreen({navigation}) {
 
                         allModels.map((u, i) => {
                             return (
-                                <Picker.Item label={u.name} value={u.name}/>
+                                <Picker.Item key={i} label={u.name} value={u.name}/>
                             )
                         })
                     }
@@ -163,12 +163,12 @@ export default function HomeScreen({navigation}) {
                 </Picker>
                 <View style={styles.check}>
                     <Button
-                        //onPress={() =>
-                        //    navigation.navigate('List')
-                        //}
                         onPress={() =>
-                            createPost()
+                            navigation.navigate('List')
                         }
+                        /*onPress={() =>
+                            createPost()
+                        }*/
                         title="Rechercher"
                         type="solid"
                     />

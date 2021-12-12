@@ -33,7 +33,7 @@ export default function SuplistCar({navigation}) {
     return (
         <>
             <ScrollView>
-                <TextInput
+               <TextInput
                     value={title}
                     onChange={e => setPost({ ...post, title: e.target.value })}
                 />
@@ -52,9 +52,9 @@ export default function SuplistCar({navigation}) {
                             <Card>
 
                                 <Card.Content>
-                                    <Title key={i} >{ post.title}</Title>
+                                    <Title key={i} >{ post.fabricant}</Title>
                                 </Card.Content>
-                                <Card.Cover source={{ uri: post.url }} />
+                                <Card.Cover source={{ uri: post.img }} />
                                 <Card.Actions>
                                     <Button onPress={() =>
                             navigation.navigate('CarPage')
