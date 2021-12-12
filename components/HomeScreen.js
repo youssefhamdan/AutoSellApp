@@ -14,16 +14,19 @@ export default function HomeScreen({navigation}) {
         modele: "",
         carburant: "",
         km: "",
-        prix: 0,
+        prix: "",
         annee: "",
         puissance: "",
         img: "https://cloud.leparking.fr/2021/08/23/01/06/seat-leon-seat-leon-1p-2-0-tdi-07-preto_8248044968.jpg",
         boite: ""
     })
+    const [prix,setPrix]= useState("");
+    const [km,setKm]= useState("");
+    const [annee,setAnnee]= useState("");
+    const [puissance,setPuissance]= useState("");
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
-    const {fabricant, modele, prix, carburant, km, annee, puissance, boite} = post
-
+    const {fabricant, modele, carburant, boite} = post
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
@@ -33,6 +36,9 @@ export default function HomeScreen({navigation}) {
 
     async function createPost() {
         console.log(post)
+
+        console.log(typeof(prix))
+        console.log("j'affiche prix : "+prix)
         await supabase.from('posts').insert([{
             fabricant,
             modele,
@@ -48,10 +54,10 @@ export default function HomeScreen({navigation}) {
             fabricant: "",
             modele: "",
             carburant: "",
-            km: 0,
-            prix: 0,
-            annee: 0,
-            puissance: 0,
+            km: "",
+            prix: "",
+            annee: "",
+            puissance: "",
             img: "https://cloud.leparking.fr/2021/08/23/01/06/seat-leon-seat-leon-1p-2-0-tdi-07-preto_8248044968.jpg",
             boite: ""
         })
@@ -110,17 +116,17 @@ export default function HomeScreen({navigation}) {
                     <TextInput
                         style={styles.input}
                         placeholder="Prix"
-
-                        value={prix}
+                        //value={prix.toString()}
+                        onChangeText={(v)=>setPrix(v)}
                         keyboardType="numeric"
-                        onChange={e => setPost({ ...post, prix: e.target.value })}
+                        // onChange={e => setPost({ ...post, prix: e.target.value })}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Année"
                         keyboardType="numeric"
-                        value={annee}
-                        onChange={e => setPost({...post, annee: e.target.value})}
+                        onChangeText={(v)=>setAnnee(v)}
+
                     />
                     <Picker
                         style={styles.input}
@@ -137,13 +143,14 @@ export default function HomeScreen({navigation}) {
                         style={styles.input}
                         placeholder="Kilométrage"
                         keyboardType="numeric"
-                        onChange={e => setPost({...post, km: e.target.value})}
+                        onChangeText={(v)=>setKm(v)}
                     />
                     <TextInput
                         keyboardType="numeric"
                         style={styles.input}
                         placeholder="Puissance"
-                        onChange={e => setPost({...post, puissance: e.target.value})}
+
+                        onChangeText={(v)=>setPuissance(v)}
                     />
                     <Picker
                         style={styles.input}
