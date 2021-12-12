@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, TextInput } from "react-native";
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '../client';
+import { Camera } from 'expo-camera';
 
 
 export default function AddCar({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
     const [image, setImagePath] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
+    const [hasPermission, setHasPermission] = useState(null);
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
                 const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -20,19 +23,41 @@ export default function AddCar({ navigation }) {
                 }
             }
         })();
+    }, []);*/
+
+
+    useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === 'granted');
+        })();
     }, []);
 
-    const uploadImage = async (path) => {
-        const response = await fetch(path);
+    if (hasPermission === null) {
+        return <View />;
+    }
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+
+    const uploadImage = async (image) => {
+        const ext = image.uri.substring(image.uri.lastIndexOf(".") + 1);
+
+        const filename = image.uri.replace(/^.*[\\\/]/, "");
+
+        var formData = new FormData();
+        formData.append("files", {
+            uri: image.uri,
+            name: filename,
+            type: image.type ? `image/${ext}` : `video/${ext}`,
+        })
+        /*const response = await fetch(path);
         const blob = await (response.blob())
-        const filename = path.substr(path.lastIndexOf("/") + 1)
+        const filename = path.substr(path.lastIndexOf("/") + 1)*/
         const { data, error } = await supabase
             .storage
             .from('image-bucket')
-            .upload(`public/${filename}`, blob, {
-                cacheControl: '3600',
-                upsert: false
-            });
+            .upload(filename, formData);
 
         if (error) alert(error.message);
 
@@ -47,11 +72,11 @@ export default function AddCar({ navigation }) {
             quality: 1,
         });
 
-        console.log("RES",result);
+        console.log("RES", result);
 
         if (!result.cancelled) {
             setImagePath(result.uri);
-            uploadImage(result.uri);
+            uploadImage(result);
         }
     };
 
@@ -59,40 +84,46 @@ export default function AddCar({ navigation }) {
 
     return (
         <>
+            <View style={styles.container}>
+                <Camera style={styles.camera} type={type}>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                setType(
+                                    type === Camera.Constants.Type.back
+                                        ? Camera.Constants.Type.front
+                                        : Camera.Constants.Type.back
+                                );
+                            }}>
+                            <Text style={styles.text}> Flip </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.text}> Photo </Text>
+                        </TouchableOpacity>
+                    </View>
+                </Camera>
+            </View>
 
-            <SafeAreaView>
 
-
-                <TextInput
-                    style={styles.input}
-                    placeholder="Modele"
+            <View style={styles.check}>
+                <Button
+                    onPress={takePicture}
+                    title="ADD PHOTO"
+                    type="solid"
                 />
-                <TextInput
-                    style={styles.inputDes}
-                    multiline
-                    numberOfLines={4}
-                    placeholder="Description"
-                    onChangeText={text => onChangeText(text)}
+                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
+            </View>
+
+            <View style={styles.check}>
+                <Button
+
+                    title="Insert the car"
+                    type="solid"
                 />
+            </View>
 
-                <View style={styles.check}>
-                    <Button
-                        onPress={takePicture}
-                        title="ADD PHOTO"
-                        type="solid"
-                    />
-                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-
-                </View>
-
-                <View style={styles.check}>
-                    <Button
-                        
-                        title="Insert the car"
-                        type="solid"
-                    />
-                </View>
-            </SafeAreaView>
         </>
     );
 }
@@ -118,5 +149,26 @@ const styles = StyleSheet.create({
     check: {
         padding: 10,
         color: "#f5f200"
-    }
+    },
+    container: {
+        flex: 1,
+    },
+    camera: {
+        flex: 1,
+    },
+    buttonContainer: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        margin: 20,
+    },
+    button: {
+        flex: 1,
+        alignSelf: 'flex-end',
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: 18,
+        color: 'white',
+    },
 });
