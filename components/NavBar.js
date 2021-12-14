@@ -6,6 +6,7 @@ import SuplistCar from './SuplistCar';
 import AddCar from './AddCar';
 import carPage from './CarPage'
 import SearchPage from './SearchPage';
+import Favorite from './Favorite';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
@@ -14,10 +15,10 @@ export default function NavBar() {
 
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Recherche"
+        component={SearchPage}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Recherche',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -25,10 +26,10 @@ export default function NavBar() {
       />
       
       <Tab.Screen
-        name="Insert a car"
-        component={AddCar}
+        name="Insérer une voiture"
+        component={HomeScreen}
         options={{
-          tabBarLabel: 'Insert',
+          tabBarLabel: 'Insertion',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="message-plus" color={color} size={size} />
           ),
@@ -36,12 +37,12 @@ export default function NavBar() {
       />
 
       <Tab.Screen
-        name="Search"
-        component={SearchPage}
+        name="Espace favoris"
+        component={Favorite}
         options={{
-          tabBarLabel: 'Search',
+          tabBarLabel: 'Mes Favoris',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="message-plus" color={color} size={size} />
+            <MaterialCommunityIcons name="star" color={color} size={size} />
           ),
         }}
       />

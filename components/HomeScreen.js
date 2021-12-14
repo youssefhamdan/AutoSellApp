@@ -115,8 +115,8 @@ export default function HomeScreen({navigation}) {
             boite: ""
         })
         setImageUrl("")
-        alert(error.message)
-        navigation.navigate('List')
+        //alert(error.message)
+        navigation.navigate('Search')
 
     }
 

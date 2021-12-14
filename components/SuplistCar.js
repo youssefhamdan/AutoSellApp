@@ -44,9 +44,9 @@ export default function SuplistCar({route,navigation}) {
                                 <Card.Content>
                                     <Title key={i} >{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
                                 </Card.Content>
-                                <Card.Cover source={{ uri: post.img }} />
+                                <Card.Cover key={i} source={{ uri: post.img }} />
                                 <Card.Actions>
-                                    <Button onPress={() =>
+                                    <Button key={i} onPress={() =>
                             navigation.navigate('CarPage',{ idAnnonce:post.id })
                         }>ENTER</Button>
                                 </Card.Actions>

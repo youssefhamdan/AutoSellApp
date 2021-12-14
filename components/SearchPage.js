@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import {Picker} from '@react-native-picker/picker';
 
 export default function SearchPage({ navigation }) {
+    var query = "https://cjpffrmyafbesnptyfdj.supabase.co/rest/v1/posts?select=*";
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
     const [fabricant, setFabricant] = useState("");
@@ -14,7 +15,7 @@ export default function SearchPage({ navigation }) {
     const [km, setKm] = useState("");
     const [puissance, setPuissance] = useState("");
     const [boite, setBoite] = useState("");
-    const [query,setQuery] = useState("https://cjpffrmyafbesnptyfdj.supabase.co/rest/v1/posts?select=*");
+    
 
 
     useEffect(() => {
@@ -30,9 +31,29 @@ export default function SearchPage({ navigation }) {
 
     function queryMade(){
         if(fabricant!=""){
-            setQuery( query + "&fabricant=eq." + fabricant )
+            query+="&fabricant=eq." + fabricant; 
         }
-        console.log("Query ", query);
+        if(modele!=""){
+            query+="&modele=eq." + modele; 
+        }
+        if(prix!=""){
+            query+="&prix=gte." + prix; 
+        }
+        if(annee!=""){
+            query+="&annee=gte." + annee; 
+        }
+        if(carburant!=""){
+            query+="&carburant=eq." + carburant; 
+        }
+        if(km!=""){
+            query+="&km=gte." + km; 
+        }
+        if(puissance!=""){
+            query+="&puissance=gte." + puissance; 
+        }
+        if(boite!=""){
+            query+="&boite=eq." + boite; 
+        }
     }
 
     function reset(){
@@ -94,13 +115,13 @@ export default function SearchPage({ navigation }) {
                 </Picker>
                 <TextInput
                     style={styles.input}
-                    placeholder="Prix"
+                    placeholder="Prix Max"
                     onChangeText={(v) => setPrix(v)}
                     keyboardType="numeric"
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Année"
+                    placeholder="Année Max"
                     keyboardType="numeric"
                     onChangeText={(v) => setAnnee(v)}
 
@@ -120,7 +141,7 @@ export default function SearchPage({ navigation }) {
 
                 <TextInput
                     style={styles.input}
-                    placeholder="Kilométrage"
+                    placeholder="Kilométrage Max"
                     keyboardType="numeric"
                     onChangeText={(v) => setKm(v)}
                 />
@@ -128,7 +149,7 @@ export default function SearchPage({ navigation }) {
                 <TextInput
                     keyboardType="numeric"
                     style={styles.input}
-                    placeholder="Puissance"
+                    placeholder="Puissance Max"
 
                     onChangeText={(v) => setPuissance(v)}
                 />
@@ -148,11 +169,9 @@ export default function SearchPage({ navigation }) {
                     <Button
                         onPress={() => {
                             //console.log("POST", fabricant + "/" + modele + "/" + prix + "/" + annee + "/" + carburant + "/" + km + "/" + puissance + "/" + boite)
-                            //console.log("POST", tab)
                             queryMade();
-                            //reset();
-                            
-                            //navigation.navigate('List', { searchData: query }) 
+                            console.log("POST", query);
+                            navigation.navigate('List', { searchData: query }) 
                         }}
                         title="Recherche"
                         type="solid"
@@ -169,7 +188,7 @@ export default function SearchPage({ navigation }) {
 const styles = StyleSheet.create({
 
     scroll: {
-        backgroundColor: '#D2D2D2'
+        backgroundColor: '#f5d742'
     },
     input: {
         margin: 12,
