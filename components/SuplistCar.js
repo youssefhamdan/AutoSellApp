@@ -4,27 +4,31 @@ import { Button, Card, Title } from 'react-native-paper';
 import {ScrollView, TextInput} from 'react-native';
 import 'react-native-url-polyfill/auto';
 
-export default function SuplistCar({navigation}) {
-    const [posts, setPosts] = useState([])
-    const [post, setPost] = useState({ title: "", url: "" })
-    const { title, url } = post
-
+export default function SuplistCar({route,navigation}) {
+    const [posts, setPosts] = useState([]);
+    const {searchData} = route.params;
+    
     useEffect(() => { 
        fetchPosts()
     }, [])
 
+    
+
     async function fetchPosts() {
-        const { data } = await supabase
-            .from('posts')
-            .select();
-            setPosts(data);
-        //console.log("data:", data)
+        console.log("QUERY "+searchData);
+        fetch(searchData, {
+            method: 'GET',
+            headers: {
+              'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzODE3ODU1OSwiZXhwIjoxOTUzNzU0NTU5fQ.POaMQPFZdcjRpLsmZFgwZ4-Iiw3i5hN9EtTG6yzu21I'
+            }})
+            .then((response) => response.json())
+            .then((json) => setPosts(json))
+            .catch((error) => console.error(error))  
     }
 
 
     
 
-    console.log("qqdq",posts);
     
     return (
         <>

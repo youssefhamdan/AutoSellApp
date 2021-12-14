@@ -5,6 +5,7 @@ import ListCar from './ListCar'
 import SuplistCar from './SuplistCar';
 import AddCar from './AddCar';
 import carPage from './CarPage'
+import SearchPage from './SearchPage';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Tab = createBottomTabNavigator();
 
@@ -35,10 +36,10 @@ export default function NavBar() {
       />
 
       <Tab.Screen
-        name="List"
-        component={SuplistCar}
+        name="Search"
+        component={SearchPage}
         options={{
-          tabBarLabel: 'List',
+          tabBarLabel: 'Search',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="message-plus" color={color} size={size} />
           ),

@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './components/HomeScreen';
 import SuplistCar from './components/SuplistCar';
 import carPage from './components/CarPage';
+import SearchPage from './components/SearchPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
           options={{ title: 'Home' }}
         />
         <Stack.Screen name="List" component={SuplistCar} />
+        <Stack.Screen name="Search" component={SearchPage} />
         <Stack.Screen name="CarPage" component={carPage} />
        
       </Stack.Navigator>
