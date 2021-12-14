@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import React, {useEffect, useState, useRef} from "react";
+import {SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity} from "react-native";
 import {
     View,
     Text,
-    Picker,
     Image
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import { supabase } from "../client";
-import { Camera } from 'expo-camera';
+import {Picker} from '@react-native-picker/picker';
+import {Button} from 'react-native-elements';
+import {supabase} from "../client";
+import {Camera} from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({navigation}) {
     const [image, setImagePath] = useState(null);
     const [img, setImageUrl] = useState("https://cjpffrmyafbesnptyfdj.supabase.in/storage/v1/object/public/image-bucket/dbff1d1c-fb21-49cf-ad79-ee8644748366.jpg");
     const [filename, setFilename] = useState("");
@@ -31,13 +31,22 @@ export default function HomeScreen({ navigation }) {
         boite: ""
     })
     const [prix, setPrix] = useState("");
+    const [longitude, setLongitude] = useState();
+    const [latitude, setLatitude] = useState();
+    const [location, setLocation] = useState("");
     const [km, setKm] = useState("");
     const [annee, setAnnee] = useState("");
     const [puissance, setPuissance] = useState("");
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
-    const { fabricant, modele, carburant, boite } = post
-    const { verif, setVerif } = useState(true);
+    const {fabricant, modele, carburant, boite} = post
+    const [anneePH, setAnneePH] = useState("Année");
+    const [prixPH, setPrixPH] = useState("Prix");
+    const [puissancePH, setPuissancePH] = useState("Puissance");
+    const [kmPH, setKmPH] = useState("Kilomètre");
+    const [ColorPH, setColorPH] = useState("black");
+    const [locationPH, setLocationPH] = useState("Location");
+    const [imgText, setImgText] = useState("Ajouter photo");
 
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
@@ -48,19 +57,39 @@ export default function HomeScreen({ navigation }) {
 
 
     async function verifPost() {
-        if (fabricant != "" && modele != "" && annee != "") {
+
+        if (fabricant != "" && modele != "" && annee != ""&&prix!=""&&annee!=""&&km!=""&&puissance!=""&&location!="") {
+            getLocation(location)
             createPost()
-        } else { alert("Tous les champs sont obligatoire") }
+        } else {
+            setColorPH("red");
+            setPrixPH("Le champ Prix est obligatoire !");
+            setAnneePH("Le champ Année est obligatoire !");
+            setKmPH("Le champ Kilomètre est obligatoire !");
+            setPuissancePH("Le champ Puissance est obligatoire !");
+            setLocationPH("Le champ location est obligatoire !");
+            alert("Tous les champs sont obligatoires !")
+        }
+    }
+
+    async function getLocation(location){
+       let url='http://open.mapquestapi.com/geocoding/v1/address?key=MM0QCZCk9JEAMjHj3mDc7AyxUvunobQ4&location='+location
+        await fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+
+                    setLatitude(json.results[0].locations[0].latLng.lat)
+                    setLongitude(json.results[0].locations[0].latLng.lng)
+
+                    console.log(json.results[0].locations[0].latLng.lat+" ////"+json.results[0].locations[0].latLng.lng)
+            })
+            .catch((error) => console.error(error))
+        console.log(typeof(latitude)+"///"+typeof(longitude))
     }
 
     async function createPost() {
 
-
-        console.log(post)
-
-        console.log(typeof (prix))
-        console.log("j'affiche prix : " + prix)
-        const { data, error } = await supabase.from('posts').insert([{
+        const {data, error} = await supabase.from('posts').insert([{
             fabricant,
             modele,
             carburant,
@@ -69,8 +98,11 @@ export default function HomeScreen({ navigation }) {
             annee,
             puissance,
             img,
-            boite
-        }], { returning: 'minimal' })
+            boite,
+            latitude,
+            longitude,
+            location
+        }], {returning: 'minimal'})
         setPost({
             fabricant: "",
             modele: "",
@@ -83,24 +115,26 @@ export default function HomeScreen({ navigation }) {
             boite: ""
         })
         setImageUrl("")
+        alert(error.message)
         navigation.navigate('List')
+
     }
 
 
     async function selectCarModels(make, id) {
-        SetAllModels(allMakes[id].models)
+        SetAllModels(allMakes[id-1].models)
     }
+
     async function selectCarModelss(make) {
 
         console.log("j'affiche" + make)
     }
 
 
-
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
-                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
                 if (status !== 'granted') {
                     alert('Sorry, we need camera roll permissions to make this work!');
                 }
@@ -111,7 +145,7 @@ export default function HomeScreen({ navigation }) {
 
     useEffect(() => {
         (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
+            const {status} = await Camera.requestCameraPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
 
@@ -129,9 +163,8 @@ export default function HomeScreen({ navigation }) {
     }
 
 
-
     if (hasPermission === null) {
-        return <View />;
+        return <View/>;
     }
     if (hasPermission === false) {
         return <Text>No access to camera</Text>;
@@ -149,7 +182,7 @@ export default function HomeScreen({ navigation }) {
             type: image.type ? `image/${ext}` : `image/${ext}`,
         })
 
-        const { data, error } = await supabase
+        const {data, error} = await supabase
             .storage
             .from('image-bucket')
             .upload(filename, formData);
@@ -170,9 +203,11 @@ export default function HomeScreen({ navigation }) {
         console.log("RES", result);
 
         if (!result.cancelled) {
+
             uploadImage(result);
             setImagePath(result.uri);
             setShowCamera(true);
+            setImgText("Modifier photo");
         }
     };
 
@@ -194,24 +229,26 @@ export default function HomeScreen({ navigation }) {
     return (
         <>
             {showCamera ? (
-                <ScrollView>
+                <ScrollView style={{backgroundColor: "#f5d742"}}>
 
                     <View>
                         <Picker
-                            style={styles.input}
+                            placeholder="test"
+                            style={styles.inputPicker}
                             onValueChange={(itemValue, itemIndex) => setPost({
                                 ...post,
                                 fabricant: itemValue
                             }, selectCarModels(itemValue, itemIndex))}
-                        // onValueChange={(itemValue, itemIndex) => selectCarModels(itemValue,itemIndex)}
-                        // onChange={e => setPost({ ...post, fabricant: e.target.value })}
+                            selectedValue={post.fabricant}
+
                         >
+                            <Picker.Item label="Fabricant" value=""/>
 
                             {
 
                                 allMakes.map((u, i) => {
                                     return (
-                                        <Picker.Item key={i} label={u.name} value={u.name} />
+                                        <Picker.Item key={i} label={u.name} value={u.name}/>
                                     )
                                 })
                             }
@@ -220,30 +257,31 @@ export default function HomeScreen({ navigation }) {
                         </Picker>
                         <Picker
                             style={styles.input}
-                            onValueChange={(itemValue) => setPost({ ...post, modele: itemValue })}>
-
+                            selectedValue={post.modele}
+                            onValueChange={(itemValue) => setPost({...post, modele: itemValue})}>
+                            <Picker.Item label="Modele" value=""/>
                             {
 
                                 allModels.map((u, i) => {
                                     return (
-                                        <Picker.Item key={i} label={u.name} value={u.name} />
+                                        <Picker.Item key={i} label={u.name} value={u.name}/>
                                     )
                                 })
                             }
 
 
                         </Picker>
-                        <TextInput
+                        <TextInput  placeholderTextColor={ColorPH}
                             style={styles.input}
-                            placeholder="Prix"
+                            placeholder={prixPH}
                             //value={prix.toString()}
                             onChangeText={(v) => setPrix(v)}
                             keyboardType="numeric"
-                        // onChange={e => setPost({ ...post, prix: e.target.value })}
+                            // onChange={e => setPost({ ...post, prix: e.target.value })}
                         />
-                        <TextInput
+                        <TextInput  placeholderTextColor={ColorPH}
                             style={styles.input}
-                            placeholder="Année"
+                            placeholder={anneePH}
                             keyboardType="numeric"
                             onChangeText={(v) => setAnnee(v)}
 
@@ -251,36 +289,44 @@ export default function HomeScreen({ navigation }) {
                         <Picker
                             style={styles.input}
                             value={carburant}
-                            onValueChange={(itemValue) => setPost({ ...post, carburant: itemValue })}
+                            selectedValue={carburant}
+                            onValueChange={(itemValue) => setPost({...post, carburant: itemValue})}
                         >
 
-                            <Picker.Item label="Carburant" value="" />
-                            <Picker.Item label="Essence" value="Essence" />
-                            <Picker.Item label="Diesel" value="Diesel" />
-                            <Picker.Item label="Hybride" value="Hybride" />
+                            <Picker.Item label="Carburant" value=""/>
+                            <Picker.Item label="Essence" value="Essence"/>
+                            <Picker.Item label="Diesel" value="Diesel"/>
+                            <Picker.Item label="Hybride" value="Hybride"/>
                         </Picker>
-                        <TextInput
+                        <TextInput placeholderTextColor={ColorPH}
                             style={styles.input}
-                            placeholder="Kilométrage"
+                            placeholder={kmPH}
                             keyboardType="numeric"
                             onChangeText={(v) => setKm(v)}
                         />
-                        <TextInput
+                        <TextInput  placeholderTextColor={ColorPH}
                             keyboardType="numeric"
                             style={styles.input}
-                            placeholder="Puissance"
+                            placeholder={puissancePH}
 
                             onChangeText={(v) => setPuissance(v)}
                         />
                         <Picker
                             style={styles.input}
                             value={boite}
-                            onValueChange={(itemValue) => setPost({ ...post, boite: itemValue })}
+                            selectedValue={boite}
+                            onValueChange={(itemValue) => setPost({...post, boite: itemValue})}
                         >
-                            <Picker.Item label="Boite de vitesse" value="" />
-                            <Picker.Item label="Manuelle" value="Manuelle" />
-                            <Picker.Item label="Automatique" value="Automatique" />
+                            <Picker.Item label="Boite de vitesse" value=""/>
+                            <Picker.Item label="Manuelle" value="Manuelle"/>
+                            <Picker.Item label="Automatique" value="Automatique"/>
                         </Picker>
+
+                        <TextInput  placeholderTextColor={ColorPH}
+                                    style={styles.input}
+                                    placeholder={locationPH}
+                                    onChangeText={(v) => setLocation(v)}
+                        />
                         <View style={styles.check}>
                             <Button
 
@@ -291,26 +337,26 @@ export default function HomeScreen({ navigation }) {
                                     setShowCamera(false);
                                 }
                                 }
-                                title="Ajouter photo"
+                                title={imgText}
                                 type="solid"
                             />
-                            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                            <View style={{ height: 10 }} />
-                            <Button
+                            {image && <Image source={{uri: image}} style={{width: 200, height: 200}}/>}
+                            <View style={{height: 10}}/>
 
-                                /*onPress={() =>
-                                    
-                                }*/
-                                onPress={() => {
-                                    verifPost()
-                                }
-                                }
-                                title="Insertion"
-                                type="solid"
-                            />
 
-                        </View>
-                    </View>
+
+                        <Button style={styles.check}
+                            /*onPress={() =>
+
+                            }*/
+                            onPress={() => {
+                                verifPost()
+                            }
+                            }
+                            title="Insertion"
+                            type="solid"
+                        />
+                        </View></View>
                 </ScrollView>
             ) : (
 
@@ -328,26 +374,26 @@ export default function HomeScreen({ navigation }) {
                             <Text style={styles.text}> Flip </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button}
-                            onPress={async () => {
-                                const r = await takePhoto();
-                                if (!r.cancelled) {
-                                    setImagePath(r.uri);
-                                    uploadImage(r);
+                                          onPress={async () => {
+                                              const r = await takePhoto();
+                                              if (!r.cancelled) {
+                                                  setImagePath(r.uri);
+                                                  uploadImage(r);
 
-                                }
-                                setShowCamera(true);
+                                              }
+                                              setShowCamera(true);
 
-                            }}>
+                                          }}>
                             <Text style={styles.text}> Take </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button}
-                            onPress={takePicture}>
+                                          onPress={takePicture}>
                             <Text style={styles.text}> Photos </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button}
-                            onPress={async () => {
-                                setShowCamera(true);
-                            }}>
+                                          onPress={async () => {
+                                              setShowCamera(true);
+                                          }}>
                             <Text style={styles.text}> Cancel </Text>
                         </TouchableOpacity>
                     </View>
@@ -363,24 +409,28 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     input: {
-        height: 40,
+        color:'black',
         margin: 12,
-        borderWidth: 1,
-        borderRadius: 5,
         padding: 10,
-        borderColor: 'black',
+        backgroundColor: 'white',
+    },
+    inputPicker: {
+        color:'black',
+        margin: 12,
+        padding: 10,
         backgroundColor: 'white',
     },
     check: {
         padding: 10,
     },
-    input: {
+    inputError: {
         height: 40,
         margin: 12,
         borderWidth: 1,
         borderRadius: 5,
         padding: 10,
-        borderColor: 'black',
+        borderColor: 'red',
+        color: 'black',
         backgroundColor: 'white',
     },
     inputDes: {
