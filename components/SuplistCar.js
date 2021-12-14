@@ -43,7 +43,7 @@ export default function SuplistCar({navigation}) {
                                 <Card.Cover source={{ uri: post.img }} />
                                 <Card.Actions>
                                     <Button onPress={() =>
-                            navigation.navigate('CarPage')
+                            navigation.navigate('CarPage',{ idAnnonce:post.id })
                         }>ENTER</Button>
                                 </Card.Actions>
 

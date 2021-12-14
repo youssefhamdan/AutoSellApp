@@ -1,5 +1,5 @@
-import React, { useEffect, useState,useRef } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, TextInput,TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import {
     View,
     Text,
@@ -13,7 +13,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen({ navigation }) {
     const [image, setImagePath] = useState(null);
-    const [img, setImageUrl] = useState("");
+    const [img, setImageUrl] = useState("https://cjpffrmyafbesnptyfdj.supabase.in/storage/v1/object/public/image-bucket/dbff1d1c-fb21-49cf-ad79-ee8644748366.jpg");
     const [filename, setFilename] = useState("");
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [hasPermission, setHasPermission] = useState(null);
@@ -37,6 +37,8 @@ export default function HomeScreen({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
     const { fabricant, modele, carburant, boite } = post
+    const { verif, setVerif } = useState(true);
+
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
@@ -44,7 +46,16 @@ export default function HomeScreen({ navigation }) {
             .catch((error) => console.error(error))
     }, []);
 
+
+    async function verifPost() {
+        if (fabricant != "" && modele != "" && annee != "") {
+            createPost()
+        } else { alert("Tous les champs sont obligatoire") }
+    }
+
     async function createPost() {
+
+
         console.log(post)
 
         console.log(typeof (prix))
@@ -72,7 +83,7 @@ export default function HomeScreen({ navigation }) {
             boite: ""
         })
         setImageUrl("")
-        
+        navigation.navigate('List')
     }
 
 
@@ -107,17 +118,17 @@ export default function HomeScreen({ navigation }) {
     }, []);
 
     const listLoad = async (filename) => {
-        console.log("filename",filename);
+        console.log("filename", filename);
         const res = supabase
-        .storage
-        .from('image-bucket')
-        .getPublicUrl(filename);
+            .storage
+            .from('image-bucket')
+            .getPublicUrl(filename);
 
         setImageUrl(res.data.publicURL);
-        console.log("PUBLICURL",res.data.publicURL)
+        console.log("PUBLICURL", res.data.publicURL)
     }
 
-   
+
 
     if (hasPermission === null) {
         return <View />;
@@ -186,7 +197,6 @@ export default function HomeScreen({ navigation }) {
                 <ScrollView>
 
                     <View>
-
                         <Picker
                             style={styles.input}
                             onValueChange={(itemValue, itemIndex) => setPost({
@@ -273,7 +283,7 @@ export default function HomeScreen({ navigation }) {
                         </Picker>
                         <View style={styles.check}>
                             <Button
-                                
+
                                 /*onPress={() =>
                                     navigation.navigate('Localisation')
                                 }*/
@@ -287,19 +297,18 @@ export default function HomeScreen({ navigation }) {
                             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                             <View style={{ height: 10 }} />
                             <Button
-                               
+
                                 /*onPress={() =>
                                     
                                 }*/
-                                onPress={() =>{
-                                    createPost() 
-                                    navigation.navigate('List')
-                                    }
+                                onPress={() => {
+                                    verifPost()
+                                }
                                 }
                                 title="Insertion"
                                 type="solid"
                             />
-                            
+
                         </View>
                     </View>
                 </ScrollView>
@@ -324,10 +333,10 @@ export default function HomeScreen({ navigation }) {
                                 if (!r.cancelled) {
                                     setImagePath(r.uri);
                                     uploadImage(r);
-                                    
+
                                 }
                                 setShowCamera(true);
-                              
+
                             }}>
                             <Text style={styles.text}> Take </Text>
                         </TouchableOpacity>
