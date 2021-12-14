@@ -22,27 +22,13 @@ export default function SuplistCar({navigation}) {
     }
 
 
-    async function createPost() {
-        await supabase.from('posts').insert([{ title, url }], { returning: 'minimal' })
-        setPost({ title: "", content: "" })
-        fetchPosts()
-    }
+    
 
     console.log("qqdq",posts);
     
     return (
         <>
             <ScrollView>
-               <TextInput
-                    value={title}
-                    onChange={e => setPost({ ...post, title: e.target.value })}
-                />
-                <TextInput
-                    value={url}
-                    onChange={e => setPost({ ...post, url: e.target.value })}
-                />
-                <Button onClick={createPost}> Create Post </Button>
-               
 
 
                 {
@@ -52,7 +38,7 @@ export default function SuplistCar({navigation}) {
                             <Card>
 
                                 <Card.Content>
-                                    <Title key={i} >{ post.fabricant}</Title>
+                                    <Title key={i} >{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
                                 </Card.Content>
                                 <Card.Cover source={{ uri: post.img }} />
                                 <Card.Actions>

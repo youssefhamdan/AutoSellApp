@@ -2,8 +2,11 @@ import React from "react";
 import { View, Image, StyleSheet, ScrollView ,Text} from 'react-native';
 import { Divider } from 'react-native-elements';
 
-export default function CarPage() {
+export default function CarPage({route}) {
+   const {id} = route.params;
+   console.log(id);
     return (
+      
         <ScrollView>
             <View>
                 <View style={{ margin: 25 }}>

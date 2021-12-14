@@ -33,6 +33,17 @@ export default function NavBar() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="List"
+        component={SuplistCar}
+        options={{
+          tabBarLabel: 'List',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="message-plus" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }

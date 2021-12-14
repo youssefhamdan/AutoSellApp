@@ -89,6 +89,7 @@ export default function AddCar({ navigation }) {
         if (!result.cancelled) {
             setImagePath(result.uri);
             uploadImage(result);
+            setShowCamera(false);
         }
     };
 
