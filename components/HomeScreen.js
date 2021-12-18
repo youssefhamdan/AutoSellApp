@@ -122,7 +122,8 @@ export default function HomeScreen({ navigation }) {
             boite,
             latitude,
             longitude,
-            location
+            location,
+            idUser:supabase.auth.user().id
         }], { returning: 'minimal' })
         setPost({
             fabricant: "",

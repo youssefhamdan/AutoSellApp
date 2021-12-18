@@ -39,19 +39,21 @@ export default function SuplistCar({route,navigation}) {
                     posts.map((post,i) => {
                         
                         return (
-                            <Card>
+                            
+                            <Card key={i}>
 
                                 <Card.Content>
-                                    <Title key={i} >{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
+                                    <Title>{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
                                 </Card.Content>
-                                <Card.Cover key={i} source={{ uri: post.img }} />
-                                <Card.Actions>
-                                    <Button key={i} onPress={() =>
+                                <Card.Cover source={{ uri: post.img }} />
+                                <Card.Actions >
+                                    <Button onPress={() =>
                             navigation.navigate('CarPage',{ idAnnonce:post.id })
                         }>ENTER</Button>
                                 </Card.Actions>
 
                             </Card>
+                           
                         )
                     })
                 }
