@@ -29,7 +29,7 @@ export default function SearchPage({ navigation }) {
     }, []);
 
     async function selectCarModels(make, id) {
-        SetAllModels(allMakes[id].models)
+        SetAllModels(allMakes[id-1].models)
     }
 
     function queryMade() {
@@ -117,12 +117,14 @@ export default function SearchPage({ navigation }) {
 
                 </Picker>
                 <TextInput
+                    placeholderTextColor='black'
                     style={styles.input}
                     placeholder="Prix Max"
                     onChangeText={(v) => setPrix(v)}
                     keyboardType="numeric"
                 />
                 <TextInput
+                    placeholderTextColor='black'
                     style={styles.input}
                     placeholder="Année Max"
                     keyboardType="numeric"
@@ -143,6 +145,7 @@ export default function SearchPage({ navigation }) {
                 </Picker>
 
                 <TextInput
+                    placeholderTextColor='black'
                     style={styles.input}
                     placeholder="Kilométrage Max"
                     keyboardType="numeric"
@@ -150,6 +153,7 @@ export default function SearchPage({ navigation }) {
                 />
 
                 <TextInput
+                    placeholderTextColor='black'
                     keyboardType="numeric"
                     style={styles.input}
                     placeholder="Puissance Max"

@@ -112,7 +112,7 @@ export default function CarPage({ route, navigation }) {
                             )}
                         </View>
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 25, fontWeight: 'bold' }}> {post.fabricant + " " + post.modele + " " + post.annee} </Text>
+                            <Text style={{ fontSize: 25, fontWeight: 'bold' }}> {post.fabricant + " " + post.modele} </Text>
                         </View>
                         <Image source={{ uri: post.img }} style={{ width: '100%', height: 400 }} />
                         <View style={{ margin: 25 }}>

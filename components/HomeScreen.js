@@ -22,6 +22,7 @@ Notifications.setNotificationHandler({
 
 
 export default function HomeScreen({ navigation }) {
+    //variables pour récuperer les champs
     const [post, setPost] = useState({
         fabricant: "",
         modele: "",
@@ -40,8 +41,6 @@ export default function HomeScreen({ navigation }) {
     const cameraRef = useRef(null);
     const [showCamera, setShowCamera] = useState(true);
     const [prix, setPrix] = useState("");
-    const [longitude, setLongitude] = useState();
-    const [latitude, setLatitude] = useState();
     const [location, setLocation] = useState("");
     const [km, setKm] = useState("");
     const [annee, setAnnee] = useState("");
@@ -49,6 +48,8 @@ export default function HomeScreen({ navigation }) {
     const [allMakes, SetAllMakes] = useState([]);
     const [allModels, SetAllModels] = useState([]);
     const { fabricant, modele, carburant, boite } = post
+
+    //placeholders pour les champs, a ameliorer si le temps avec react hooks
     const [anneePH, setAnneePH] = useState("Année");
     const [prixPH, setPrixPH] = useState("Prix");
     const [puissancePH, setPuissancePH] = useState("Puissance");
@@ -57,13 +58,17 @@ export default function HomeScreen({ navigation }) {
     const [locationPH, setLocationPH] = useState("Location");
     const [imgText, setImgText] = useState("Ajouter photo");
 
+
+    //Fetch api pour recuperer les fabricant et leurs modeles
     useEffect(() => {
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
-            .then((json) => SetAllMakes(json.makes.slice(800, 900)))
+            .then((json) => SetAllMakes(json.makes.slice(800, 900)))// il y'a plus de 1000 fabricants sur l'api donc on recupere que de 800 a 900 car les meilleurs fabricants sont dans cet invtervalle)
             .catch((error) => console.error(error))
     }, []);
 
+
+    //notification
     async function schedulePushNotification(title, body) {
         await Notifications.scheduleNotificationAsync({
             content: {
@@ -75,6 +80,8 @@ export default function HomeScreen({ navigation }) {
         });
     }
 
+
+    //verification de la completude des champs
     async function verifPost() {
 
         if (fabricant != "" && modele != "" && annee != "" && prix != "" && annee != "" && km != "" && puissance != "" && location != "") {
@@ -93,21 +100,8 @@ export default function HomeScreen({ navigation }) {
         }
     }
 
-    async function getLocation(location) {
-        let url = 'http://open.mapquestapi.com/geocoding/v1/address?key=MM0QCZCk9JEAMjHj3mDc7AyxUvunobQ4&location=' + location
-        await fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
 
-                setLatitude(json.results[0].locations[0].latLng.lat)
-                setLongitude(json.results[0].locations[0].latLng.lng)
-
-                console.log(json.results[0].locations[0].latLng.lat + " ////" + json.results[0].locations[0].latLng.lng)
-            })
-            .catch((error) => console.error(error))
-        console.log(typeof (latitude) + "///" + typeof (longitude))
-    }
-
+    //creation d'un post
     async function createPost() {
         console.log(img);
         const { data, error } = await supabase.from('posts').insert([{
@@ -120,10 +114,9 @@ export default function HomeScreen({ navigation }) {
             puissance,
             img,
             boite,
-            latitude,
-            longitude,
             location,
-            idUser:supabase.auth.user().id
+            idUser:supabase.auth.user().id,
+            contact:supabase.auth.user().email
         }], { returning: 'minimal' })
         setPost({
             fabricant: "",
@@ -142,12 +135,14 @@ export default function HomeScreen({ navigation }) {
 
     }
 
-
+    //triage des modeles en fonction d'un fabricant
     async function selectCarModels(make, id) {
         SetAllModels(allMakes[id - 1].models)
     }
 
 
+
+    //demande permission media
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -159,7 +154,7 @@ export default function HomeScreen({ navigation }) {
         })();
     }, []);
 
-
+    //demande permission camera
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
@@ -168,6 +163,7 @@ export default function HomeScreen({ navigation }) {
 
     }, []);
 
+    //recuperation lien de l'image dans le bucket de base de donées pour la stocker dans un champ de la table post
     const listLoad = async (filename) => {
         console.log("filename", filename);
         const res = supabase
@@ -179,7 +175,7 @@ export default function HomeScreen({ navigation }) {
         console.log("PUBLICURL", res.data.publicURL)
     }
 
-
+    //affichage page dépendant des droits(utilisateur a accepter camera ou non)
     if (hasPermission === null) {
         return <View />;
     }
@@ -187,6 +183,8 @@ export default function HomeScreen({ navigation }) {
         return <Text>No access to camera</Text>;
     }
 
+
+    //stockage image dans le bucket de la bd
     const uploadImage = async (image) => {
         const ext = image.uri.substring(image.uri.lastIndexOf(".") + 1);
 
@@ -209,6 +207,8 @@ export default function HomeScreen({ navigation }) {
         listLoad(filename);
     }
 
+
+    //choisir image du téléphone
     const takePicture = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -228,6 +228,7 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
+    //prendre image avec appareil photo du telephone
     const takePhoto = async () => {
         if (cameraRef) {
             console.log('in take picture');
@@ -347,9 +348,6 @@ export default function HomeScreen({ navigation }) {
                         <View style={styles.check}>
                             <Button
 
-                                /*onPress={() =>
-                                    navigation.navigate('Localisation')
-                                }*/
                                 onPress={() => {
                                     setShowCamera(false);
                                 }
@@ -363,9 +361,6 @@ export default function HomeScreen({ navigation }) {
 
 
                             <Button style={styles.check}
-                                /*onPress={() =>
-    
-                                }*/
                                 onPress={() => {
                                     verifPost()
                                 }

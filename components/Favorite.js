@@ -86,9 +86,6 @@ export default function Favorite({navigation}) {
                         />
                     }
                 >
-                    <Button  onPress={() =>
-                        fetchFav()
-                    }>ENTER</Button>
                     {
                         postsInFav.map((post,i) => {
                             return (
