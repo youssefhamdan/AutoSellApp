@@ -12,10 +12,15 @@ export default function Favorite({navigation}) {
 
     useEffect(() => {
         fetchFav()
-        fetchPosts()
-        assignPostsInFav()
-
     }, [])
+    useEffect(() => {
+        fetchPosts()
+    }, [fav])
+    useEffect(() => {
+        assignPostsInFav()
+    }, [posts])
+
+    
 
 
     async function fetchFav() {
@@ -23,7 +28,7 @@ export default function Favorite({navigation}) {
         const {data, error} = await supabase
             .from('favoritePost')
             .select()
-        //.eq('id', idAnnonce);
+            .eq('idUser',supabase.auth.user().id);
         setFav(data)
         //console.log("posts : " + fav[0].idPost)
         console.log("posts : " + data)
@@ -39,7 +44,6 @@ export default function Favorite({navigation}) {
         setPosts(data)
         //console.log("test: " + posts[0].fabricant)
         console.log("posts : " + data)
-
     }
 
     function assignPostsInFav(){
@@ -60,49 +64,23 @@ export default function Favorite({navigation}) {
         return (
             <>
                 <ScrollView>
-
-
                     {
                         postsInFav.map((post,i) => {
-
                             return (
-                                <Card>
-
+                                <Card key={i}>
                                     <Card.Content>
-                                        <Title key={i} >{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
+                                        <Title  >{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
                                     </Card.Content>
-                                    <Card.Cover key={i} source={{ uri: post.img }} />
+                                    <Card.Cover  source={{ uri: post.img }} />
                                     <Card.Actions>
-                                        <Button key={i} onPress={() =>
+                                        <Button  onPress={() =>
                                             navigation.navigate('CarPage',{ idAnnonce:post.id })
                                         }>ENTER</Button>
                                     </Card.Actions>
-
                                 </Card>
                             )
                         })
                     }
-
-
-                    {/*{*/}
-                    {/*    fav.map((favorites, i) => {*/}
-
-                    {/*        return (*/}
-                    {/*            <Card>*/}
-
-                    {/*                <Card.Content>*/}
-                    {/*                    <Title key={i}>{favorites.idUser + "/" + favorites.idPost}DSQDSQDSQ</Title>*/}
-                    {/*                </Card.Content>*/}
-                    {/*                <Card.Cover key={i}/>*/}
-                    {/*                <Card.Actions>*/}
-                    {/*                    <Button key={i}*/}
-                    {/*                    >ENTER</Button>*/}
-                    {/*                </Card.Actions>*/}
-
-                    {/*            </Card>*/}
-                    {/*        )*/}
-                    {/*    })*/}
-                    {/*}*/}
                 </ScrollView>
             </>
         );
