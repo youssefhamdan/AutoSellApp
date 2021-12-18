@@ -1,13 +1,24 @@
 import { supabase } from '../client';
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { Button, Card, Title } from 'react-native-paper';
 import {ScrollView, TextInput} from 'react-native';
 import 'react-native-url-polyfill/auto';
+import { RefreshControl, SafeAreaView, StyleSheet, Text } from 'react-native';
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 export default function Favorite({navigation}) {
     const [posts, setPosts] = useState([]);
     const [fav, setFav] = useState([]);
     const [postsInFav, setPostsInFav] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        fetchFav()
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
 
     useEffect(() => {
@@ -18,52 +29,66 @@ export default function Favorite({navigation}) {
     }, [fav])
     useEffect(() => {
         assignPostsInFav()
+
     }, [posts])
 
-    
+
+
+
 
 
     async function fetchFav() {
-        console.log("id user : " + supabase.auth.user().id)
+        //console.log("id user : " + supabase.auth.user().id)
         const {data, error} = await supabase
             .from('favoritePost')
             .select()
-            .eq('idUser',supabase.auth.user().id);
+
+            .eq('idUser', supabase.auth.user().id);
+        //.eq('id', idAnnonce);
         setFav(data)
         //console.log("posts : " + fav[0].idPost)
-        console.log("posts : " + data)
+        //console.log("posts : " + data)
 
     }
 
     async function fetchPosts() {
-        console.log("table post : ")
+        //console.log("table post : ")
         const {data, error} = await supabase
             .from('posts')
             .select()
-        //.eq('id', idAnnonce);
         setPosts(data)
         //console.log("test: " + posts[0].fabricant)
-        console.log("posts : " + data)
+        //console.log("posts : " + data)
     }
 
     function assignPostsInFav(){
         const data=[]
         fav.map((favorite, i) => {
-            if(favorite.idUser==supabase.auth.user().id){
+
             posts.map((post, i) => {
                     if(post.id==favorite.idPost){
                         data.push(post)
                     }
-            })}
+            })
         })
         setPostsInFav(data)
-        console.log("mes favoris  : "+data)
     }
 
 
         return (
             <>
-                <ScrollView>
+                <ScrollView
+                    //contentContainerStyle={styles.scrollView}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                >
+                    <Button  onPress={() =>
+                        fetchFav()
+                    }>ENTER</Button>
                     {
                         postsInFav.map((post,i) => {
                             return (
@@ -85,3 +110,15 @@ export default function Favorite({navigation}) {
             </>
         );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scrollView: {
+        flex: 1,
+        backgroundColor: 'pink',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
