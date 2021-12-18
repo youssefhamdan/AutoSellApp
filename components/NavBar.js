@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen'
-import ListCar from './ListCar'
-import SuplistCar from './SuplistCar';
-import AddCar from './AddCar';
-import carPage from './CarPage'
 import SearchPage from './SearchPage';
 import Favorite from './Favorite';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { supabase } from "../client";
+import SignOut from './SignOut';
+import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 export default function NavBar() {
@@ -24,7 +23,7 @@ export default function NavBar() {
           ),
         }}
       />
-      
+
       <Tab.Screen
         name="Insérer une voiture"
         component={HomeScreen}
@@ -46,6 +45,19 @@ export default function NavBar() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="SignOut"
+        component={SignOut}
+        options={{
+          tabBarLabel: 'Deconnexion',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="logout" color={color} size={size} />
+          ),
+        }}
+      />
+
+
     </Tab.Navigator>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { Button } from 'react-native-elements';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
+import { supabase } from "../client";
 
 export default function SearchPage({ navigation }) {
     var query = "https://cjpffrmyafbesnptyfdj.supabase.co/rest/v1/posts?select=*";
@@ -15,10 +16,12 @@ export default function SearchPage({ navigation }) {
     const [km, setKm] = useState("");
     const [puissance, setPuissance] = useState("");
     const [boite, setBoite] = useState("");
-    
+
+
 
 
     useEffect(() => {
+        //console.log(supabase.auth.user().id)
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
             .then((json) => SetAllMakes(json.makes.slice(800, 900)))
@@ -29,34 +32,34 @@ export default function SearchPage({ navigation }) {
         SetAllModels(allMakes[id].models)
     }
 
-    function queryMade(){
-        if(fabricant!=""){
-            query+="&fabricant=eq." + fabricant; 
+    function queryMade() {
+        if (fabricant != "") {
+            query += "&fabricant=eq." + fabricant;
         }
-        if(modele!=""){
-            query+="&modele=eq." + modele; 
+        if (modele != "") {
+            query += "&modele=eq." + modele;
         }
-        if(prix!=""){
-            query+="&prix=gte." + prix; 
+        if (prix != "") {
+            query += "&prix=gte." + prix;
         }
-        if(annee!=""){
-            query+="&annee=gte." + annee; 
+        if (annee != "") {
+            query += "&annee=gte." + annee;
         }
-        if(carburant!=""){
-            query+="&carburant=eq." + carburant; 
+        if (carburant != "") {
+            query += "&carburant=eq." + carburant;
         }
-        if(km!=""){
-            query+="&km=gte." + km; 
+        if (km != "") {
+            query += "&km=gte." + km;
         }
-        if(puissance!=""){
-            query+="&puissance=gte." + puissance; 
+        if (puissance != "") {
+            query += "&puissance=gte." + puissance;
         }
-        if(boite!=""){
-            query+="&boite=eq." + boite; 
+        if (boite != "") {
+            query += "&boite=eq." + boite;
         }
     }
 
-    function reset(){
+    function reset() {
         setFabricant("");
         setModele("");
         setPrix("");
@@ -79,7 +82,7 @@ export default function SearchPage({ navigation }) {
                         setFabricant(itemValue);
                         selectCarModels(itemValue, itemIndex);
                     }}
-                    
+
                 >
 
                     {
@@ -171,7 +174,7 @@ export default function SearchPage({ navigation }) {
                             //console.log("POST", fabricant + "/" + modele + "/" + prix + "/" + annee + "/" + carburant + "/" + km + "/" + puissance + "/" + boite)
                             queryMade();
                             console.log("POST", query);
-                            navigation.navigate('List', { searchData: query }) 
+                            navigation.navigate('List', { searchData: query })
                         }}
                         title="Recherche"
                         type="solid"
@@ -188,13 +191,13 @@ export default function SearchPage({ navigation }) {
 const styles = StyleSheet.create({
 
     scroll: {
-        backgroundColor: '#f5d742'
+        
     },
     input: {
         margin: 12,
         padding: 10,
         borderColor: 'black',
-        backgroundColor: 'white',
+        backgroundColor: '#C9CCD5',
     },
     check: {
         padding: 10,

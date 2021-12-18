@@ -229,12 +229,12 @@ export default function HomeScreen({navigation}) {
     return (
         <>
             {showCamera ? (
-                <ScrollView style={{backgroundColor: "#f5d742"}}>
+                <ScrollView >
 
                     <View>
                         <Picker
                             placeholder="test"
-                            style={styles.inputPicker}
+                            style={styles.input}
                             onValueChange={(itemValue, itemIndex) => setPost({
                                 ...post,
                                 fabricant: itemValue
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
         color:'black',
         margin: 12,
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: '#C9CCD5',
     },
     inputPicker: {
         color:'black',
