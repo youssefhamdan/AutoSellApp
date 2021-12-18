@@ -11,6 +11,7 @@ import SearchPage from './components/SearchPage';
 import { supabase } from "./client"
 import AuthScreen from './components/AuthScreen';
 import CreateAccount from './components/CreateAccount';
+import Favorite from "./components/Favorite";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,7 @@ export default function App() {
           <Stack.Screen name="List" component={SuplistCar} />
           <Stack.Screen name="Search" component={SearchPage} />
           <Stack.Screen name="CarPage" component={carPage} />
+          <Stack.Screen name="Favoris" component={Favorite} />
           </>: <>
           <Stack.Screen name="Auth" component={AuthScreen} />
           <Stack.Screen name="CreateAccount" component={CreateAccount} />

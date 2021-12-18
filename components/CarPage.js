@@ -28,6 +28,7 @@ export default function CarPage({ route, navigation }) {
         setPost(data[0]);
     }
 
+
     async function getLocation(location){
         let url='http://open.mapquestapi.com/geocoding/v1/address?key=MM0QCZCk9JEAMjHj3mDc7AyxUvunobQ4&location='+location
         await fetch(url)
@@ -56,11 +57,11 @@ if(longitude!=undefined&&longitude!=undefined&&latitudeD!=undefined&&longitudeD!
                         </View>
                         <Image source={{ uri: post.img }} style={{ width: '100%', height: 400 }} />
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', fontWeight: 'bold' }}> {post.prix} €</Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold'}}> {post.prix} €</Text>
                         </View>
                         <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', fontWeight: 'bold' }}> Détails </Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold'}}> Détails </Text>
                             <View style={{ marginTop: 25 }}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Marque <Text style={{ color: '#333', marginLeft: 15 }}> {post.fabricant} </Text></Text>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Modèle <Text style={{ color: '#333', marginLeft: 15 }}> {post.modele} </Text></Text>
@@ -112,11 +113,11 @@ else{
                     </View>
                     <Image source={{ uri: post.img }} style={{ width: '100%', height: 400 }} />
                     <View style={{ margin: 25 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', fontWeight: 'bold' }}> {post.prix} €</Text>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold'}}> {post.prix} €</Text>
                     </View>
                     <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
                     <View style={{ margin: 25 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', fontWeight: 'bold' }}> Détails </Text>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold'}}> Détails </Text>
                         <View style={{ marginTop: 25 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Marque <Text style={{ color: '#333', marginLeft: 15 }}> {post.fabricant} </Text></Text>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Modèle <Text style={{ color: '#333', marginLeft: 15 }}> {post.modele} </Text></Text>

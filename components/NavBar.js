@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { supabase } from "../client";
 import SignOut from './SignOut';
 import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
+import SuplistCar from "./SuplistCar";
 const Tab = createBottomTabNavigator();
 
 export default function NavBar() {
