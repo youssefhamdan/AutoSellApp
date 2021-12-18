@@ -84,7 +84,7 @@ export default function SearchPage({ navigation }) {
                     }}
 
                 >
-
+                    <Picker.Item label="Fabricant" value="" />
                     {
 
                         allMakes.map((u, i) => {
@@ -104,7 +104,7 @@ export default function SearchPage({ navigation }) {
                     }}
                     selectedValue={modele}
                 >
-
+                    <Picker.Item label="Modele" value="" />
                     {
 
                         allModels.map((u, i) => {
@@ -191,7 +191,7 @@ export default function SearchPage({ navigation }) {
 const styles = StyleSheet.create({
 
     scroll: {
-        
+
     },
     input: {
         margin: 12,
