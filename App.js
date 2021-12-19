@@ -14,11 +14,13 @@ import CreateAccount from './components/CreateAccount';
 import Favorite from "./components/Favorite";
 import i18n from "./i18n/i18n";
 import Settings from "./components/Settings";
+import {useTranslation} from "react-i18next";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [auth, setAuth] = useState(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     setAuth(supabase.auth.session());
@@ -39,14 +41,14 @@ export default function App() {
             component={HomeScreen}
             options={{ title: 'Home' }}
           />
-          <Stack.Screen options={{ title: 'Liste d\'annonces' }} name="List" component={SuplistCar} />
+          <Stack.Screen options={{ title: t('titrelisteannonce') }} name="List" component={SuplistCar} />
           <Stack.Screen name="Search" component={SearchPage} />
-          <Stack.Screen options={{ title: 'Annonce' }} name="CarPage" component={carPage} />
+          <Stack.Screen options={{ title: t('annonce') }} name="CarPage" component={carPage} />
           <Stack.Screen name="Favoris" component={Favorite} />
-          </>: <>
-          <Stack.Screen options={{ title: 'Authentification' }} name="Authentification" component={AuthScreen} />
-          <Stack.Screen options={{ title: 'Créer un compte' }} name="Account" component={CreateAccount} />
           <Stack.Screen options={{ title: 'Settings' }} name="Settings" component={Settings} />
+          </>: <>
+          <Stack.Screen options={{ title: t('authentification') }} name="Authentification" component={AuthScreen} />
+          <Stack.Screen options={{ title: t('titresignup') }} name="Account" component={CreateAccount} />
           </>
           }
         </Stack.Navigator>

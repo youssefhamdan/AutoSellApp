@@ -141,7 +141,7 @@ export default function SearchPage({ navigation }) {
                 >
 
                     <Picker.Item label={t('carburant')} value="" />
-                    <Picker.Item label="Essence" value="Essence" />
+                    <Picker.Item label={t('essence')} value="Essence" />
                     <Picker.Item label="Diesel" value="Diesel" />
                     <Picker.Item label="Hybride" value="Hybride" />
                 </Picker>
@@ -170,8 +170,8 @@ export default function SearchPage({ navigation }) {
                     selectedValue={boite}
                 >
                     <Picker.Item label={t('boitedevitesse')} value="" />
-                    <Picker.Item label="Manuelle" value="Manuelle" />
-                    <Picker.Item label="Automatique" value="Automatique" />
+                    <Picker.Item label={t('manuelle')} value="Manuelle" />
+                    <Picker.Item label={t('automatique')} value="Automatique" />
                 </Picker>
 
                 <View style={styles.check}>

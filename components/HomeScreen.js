@@ -23,7 +23,7 @@ Notifications.setNotificationHandler({
 
 
 export default function HomeScreen({ navigation }) {
-    const { t} = useTranslation();
+    const {t} = useTranslation();
     //variables pour récuperer les champs
     const [post, setPost] = useState({
         fabricant: "",
@@ -52,13 +52,13 @@ export default function HomeScreen({ navigation }) {
     const { fabricant, modele, carburant, boite } = post
 
     //placeholders pour les champs, a ameliorer si le temps avec react hooks
-    const [anneePH, setAnneePH] = useState("Année");
-    const [prixPH, setPrixPH] = useState("Prix");
-    const [puissancePH, setPuissancePH] = useState("Puissance");
-    const [kmPH, setKmPH] = useState("Kilomètre");
+    const [anneePH, setAnneePH] = useState(t('annee'));
+    const [prixPH, setPrixPH] = useState(t('prix'));
+    const [puissancePH, setPuissancePH] = useState(t('puissance'));
+    const [kmPH, setKmPH] = useState(t('kilometrage'));
     const [ColorPH, setColorPH] = useState("black");
-    const [locationPH, setLocationPH] = useState("Location");
-    const [imgText, setImgText] = useState("Ajouter photo");
+    const [locationPH, setLocationPH] = useState(t('location'));
+    const [imgText, setImgText] = useState(t('ajouterphoto'));
 
 
     //Fetch api pour recuperer les fabricant et leurs modeles
@@ -88,16 +88,16 @@ export default function HomeScreen({ navigation }) {
 
         if (fabricant != "" && modele != "" && annee != "" && prix != "" && annee != "" && km != "" && puissance != "" && location != "") {
             createPost()
-            let stringNotification = "L'annonce "+fabricant+" "+modele+" a ete inserer";
-            schedulePushNotification("Annonce insérer", stringNotification);
+            let stringNotification = t('notifbody')+fabricant+" "+modele+t('notifbodyt');
+            schedulePushNotification(t('notiftitle'), stringNotification);
         } else {
             setColorPH("red");
-            setPrixPH("Le champ Prix est obligatoire !");
-            setAnneePH("Le champ Année est obligatoire !");
-            setKmPH("Le champ Kilomètre est obligatoire !");
-            setPuissancePH("Le champ Puissance est obligatoire !");
-            setLocationPH("Le champ location est obligatoire !");
-            alert("Tous les champs sont obligatoires !")
+            setPrixPH(t('errorprix'));
+            setAnneePH(t('errorannee'));
+            setKmPH(t('errorkm'));
+            setPuissancePH(t('errorhp'));
+            setLocationPH(t('errorlocation'));
+            alert(t('errorinput'))
         }
     }
 
@@ -227,7 +227,7 @@ export default function HomeScreen({ navigation }) {
             uploadImage(result);
             setImagePath(result.uri);
             setShowCamera(true);
-            setImgText("Modifier photo");
+            setImgText(t('modifierphoto'));
         }
     };
 
@@ -262,7 +262,7 @@ export default function HomeScreen({ navigation }) {
                             selectedValue={post.fabricant}
 
                         >
-                            <Picker.Item label="Fabricant" value="" />
+                            <Picker.Item label={t('fabricant')} value="" />
 
                             {
 
@@ -279,7 +279,7 @@ export default function HomeScreen({ navigation }) {
                             style={styles.input}
                             selectedValue={post.modele}
                             onValueChange={(itemValue) => setPost({ ...post, modele: itemValue })}>
-                            <Picker.Item label="Modele" value="" />
+                            <Picker.Item label={t('modele')} value="" />
                             {
 
                                 allModels.map((u, i) => {
@@ -313,8 +313,8 @@ export default function HomeScreen({ navigation }) {
                             onValueChange={(itemValue) => setPost({ ...post, carburant: itemValue })}
                         >
 
-                            <Picker.Item label="Carburant" value="" />
-                            <Picker.Item label="Essence" value="Essence" />
+                            <Picker.Item label={t('carburant')} value="" />
+                            <Picker.Item label={t('essence')} value="Essence" />
                             <Picker.Item label="Diesel" value="Diesel" />
                             <Picker.Item label="Hybride" value="Hybride" />
                         </Picker>
@@ -337,9 +337,9 @@ export default function HomeScreen({ navigation }) {
                             selectedValue={boite}
                             onValueChange={(itemValue) => setPost({ ...post, boite: itemValue })}
                         >
-                            <Picker.Item label="Boite de vitesse" value="" />
-                            <Picker.Item label="Manuelle" value="Manuelle" />
-                            <Picker.Item label="Automatique" value="Automatique" />
+                            <Picker.Item label={t('boitedevitesse')} value="" />
+                            <Picker.Item label={t('manuelle')} value="Manuelle" />
+                            <Picker.Item label={t('automatique')} value="Automatique" />
                         </Picker>
 
                         <TextInput placeholderTextColor={ColorPH}
@@ -367,7 +367,7 @@ export default function HomeScreen({ navigation }) {
                                     verifPost()
                                 }
                                 }
-                                title="Insertion"
+                                title={t('buttoninserer')}
                                 type="solid"
                             />
                         </View></View>

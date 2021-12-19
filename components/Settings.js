@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../client";
-import {Button} from "react-native-elements";
-import {useTranslation} from "react-i18next";
+import { Button } from "react-native-elements";
+import { useTranslation } from "react-i18next";
 import i18n from "../i18n/i18n";
-import {Picker} from "@react-native-picker/picker";
-import {StyleSheet, Text, View} from "react-native";
-import {Card} from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
+import { StyleSheet, Text, View } from "react-native";
+import { Card } from "react-native-paper";
 
 
 export default function Settings({ navigation }) {
-    const { t,i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [post, setPost] = useState({
         fabricant: "",
         modele: "",
@@ -21,7 +21,7 @@ export default function Settings({ navigation }) {
         img: "",
         boite: ""
     })
-    const [language, setLanguage] = useState("fr");
+    const [language, setLanguage] = useState("");
     // useEffect(()=>{
     //         supabase.auth.signOut();
     // });
@@ -32,30 +32,42 @@ export default function Settings({ navigation }) {
 
 
     return (<>
+        <View>
+            <View style={styles.textView}>
+                <Text style={styles.text}> {t('langue')} </Text>
+            </View>
 
-            <Text style={{ fontSize: 15, fontWeight: 'bold' }}> {t('greeting')} </Text>
+            <Picker
+                style={styles.input}
+                //onValueChange={(itemValue, ) => change(itemValue),console.log(itemValue)}
+                selectedValue={language}
+                onValueChange={(itemValue) => change(itemValue
+                    , console.log(itemValue), setLanguage(itemValue))}
+            >
+                <Picker.Item label={t('langue')} value="" />
+                <Picker.Item label="Francais" value="fr" />
+                <Picker.Item label="English" value="en" />
 
-    <Picker
-        style={styles.input}
-        //onValueChange={(itemValue, ) => change(itemValue),console.log(itemValue)}
-        selectedValue={language}
-        onValueChange={(itemValue) => change(itemValue
-        , console.log(itemValue),setLanguage(itemValue))}
-    >
-        <Picker.Item label="Francais" value="fr" />
-        <Picker.Item label="English" value="en" />
 
+            </Picker>
 
-    </Picker>
-        <Button
+            <View style={styles.textView}>
+                <Text style={styles.text}> {t('deconnexion')} </Text>
+            </View>
 
-            onPress={() => {
-                supabase.auth.signOut();
-            }
-            }
-            title="Déconnexion"
-            type="solid"
-        />
+            <View style={styles.button}>
+                <Button
+
+                    onPress={() => {
+                        supabase.auth.signOut();
+                    }
+                    }
+                    title={t('deconnexion')}
+                    type="solid"
+                />
+            </View>
+
+        </View>
     </>);
 }
 
@@ -66,54 +78,15 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#C9CCD5',
     },
-    inputPicker: {
-        color: 'black',
-        margin: 12,
-        padding: 10,
-        backgroundColor: 'white',
+    textView: {
+        margin: 12
     },
-    check: {
+    button:{
         padding: 10,
     },
-    inputError: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        borderColor: 'red',
-        color: 'black',
-        backgroundColor: 'white',
-    },
-    inputDes: {
-        height: 200,
-        margin: 12,
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        borderColor: 'black',
-        backgroundColor: 'white',
-    },
-    container: {
-        flex: 1,
-    },
-    camera: {
-        flex: 1,
-    },
-    buttonContainer: {
-        flex: 1,
-        backgroundColor: 'transparent',
-        flexDirection: 'row',
-        margin: 20,
-    },
-    button: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 18,
-        color: 'white',
+    text:{
+        fontSize: 20, 
         fontWeight: 'bold'
-    },
+    }
+
 });

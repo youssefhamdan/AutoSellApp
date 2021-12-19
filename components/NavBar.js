@@ -29,10 +29,10 @@ export default function NavBar() {
       />
 
       <Tab.Screen
-        name="Insérer une voiture"
+        name={t('titreinserer')}
         component={HomeScreen}
         options={{
-          tabBarLabel: 'Insertion',
+          tabBarLabel: t('navinserer'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="message-plus" color={color} size={size} />
           ),
@@ -40,10 +40,10 @@ export default function NavBar() {
       />
 
       <Tab.Screen
-        name="Mes Favoris"
+        name={t('titrefavoris')}
         component={Favorite}
         options={{
-          tabBarLabel: 'Mes Favoris',
+          tabBarLabel: t('titrefavoris'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="star" color={color} size={size} />
           ),
@@ -51,10 +51,10 @@ export default function NavBar() {
       />
 
       <Tab.Screen
-        name="SignOut"
+        name={t('parametres')}
         component={Settings}
         options={{
-          tabBarLabel: 'Deconnexion',
+          tabBarLabel: t('parametres'),
           tabBarIcon: ({ color, size }) => (
             <Icon type='antdesign' name="setting" color={color} size={size} />
           ),

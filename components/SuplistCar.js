@@ -4,8 +4,10 @@ import { Button, Card, Title } from 'react-native-paper';
 import {ScrollView, TextInput} from 'react-native';
 import 'react-native-url-polyfill/auto';
 import { color } from 'react-native-elements/dist/helpers';
+import {useTranslation} from "react-i18next";
 
 export default function SuplistCar({route,navigation}) {
+    const {t} = useTranslation();
     const [posts, setPosts] = useState([]);
     const {searchData} = route.params;
     
@@ -50,7 +52,7 @@ export default function SuplistCar({route,navigation}) {
                                 <Card.Actions style={{justifyContent: 'center',backgroundColor: '#C9CCD5',marginTop:7,marginHorizontal:4,borderRadius: 10,}}>
                                     <Button onPress={() =>
                             navigation.navigate('CarPage',{ idAnnonce:post.id })
-                        } color={"black" }>Visualiser</Button>
+                        } color={"black" }>{t('buttonvisualiser')}</Button>
                                 </Card.Actions>
 
                             </Card>

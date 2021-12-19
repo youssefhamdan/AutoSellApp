@@ -129,15 +129,15 @@ export default function CarPage({ route, navigation }) {
                         </View>
                         <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {t('greeting')} </Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {t('details')} </Text>
                             <View style={{ marginTop: 25 }}>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Marque <Text style={{ color: '#333', marginLeft: 15 }}> {post.fabricant} </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Modèle <Text style={{ color: '#333', marginLeft: 15 }}> {post.modele} </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Année <Text style={{ color: '#333', marginLeft: 15 }}> {post.annee} </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Carburant <Text style={{ color: '#333', marginLeft: 15 }}> {post.carburant} </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Kilométrage <Text style={{ color: '#333', marginLeft: 15 }}> {post.km} Km</Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Puissance <Text style={{ color: '#333', marginLeft: 15 }}> {post.puissance} Ch </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Boîte <Text style={{ color: '#333', marginLeft: 15 }}> {post.boite} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('fabricant')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.fabricant} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('modele')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.modele} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('annee')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.annee} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('carburant')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.carburant} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('kilometrage')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.km} Km</Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('puissance')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.puissance} Ch </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('boitedevitesse')} <Text style={{ color: '#333', marginLeft: 15 }}> {post.boite} </Text></Text>
                             </View>
                         </View>
                         <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
@@ -149,9 +149,9 @@ export default function CarPage({ route, navigation }) {
                         </View>
                         <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}> Location </Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}> {t('location')} </Text>
                             <View style={{ marginTop: 25 }}>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Ville  <Text style={{ color: '#333', marginLeft: 15 }}> {post.location} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> {t('ville')}  <Text style={{ color: '#333', marginLeft: 15 }}> {post.location} </Text></Text>
                             </View>
                         </View>
                     </View>

@@ -3,8 +3,10 @@ import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { useForm, Controller } from "react-hook-form";
 import { supabase } from "../client";
+import {useTranslation} from "react-i18next";
 
 export default function AuthScreen({ navigation }) {
+    const { t} = useTranslation();
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
@@ -37,9 +39,9 @@ export default function AuthScreen({ navigation }) {
                 )}
                 name="email"
             />
-            {errors.email && <Text style={styles.textError}>This is required.</Text>}
+            {errors.email && <Text style={styles.textError}>{t('errorsign')}</Text>}
 
-            <Text style={styles.text}>Mot de passe</Text>
+            <Text style={styles.text}>{t('motdepasse')}</Text>
             <Controller
                 control={control}
                 rules={{
@@ -48,7 +50,7 @@ export default function AuthScreen({ navigation }) {
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         secureTextEntry={true}
-                        placeholder='mot de passe'
+                        placeholder={t('motdepassem')}
                         style={styles.input}
                         onBlur={onBlur}
                         onChangeText={onChange}
@@ -57,12 +59,12 @@ export default function AuthScreen({ navigation }) {
                 )}
                 name="password"
             />
-            {errors.password && <Text style={styles.textError}>This is required.</Text>}
+            {errors.password && <Text style={styles.textError}>{t('errorsign')}</Text>}
 
             <View style={styles.check}>
-                <Button title="Se connecter " onPress={handleSubmit(onSubmit)}></Button>
+                <Button title={t('buttonconnecter')} onPress={handleSubmit(onSubmit)}></Button>
                 <View style={styles.button}></View>
-                <Button title="Créer un compte " onPress={() => navigation.navigate("Account")}></Button>
+                <Button title={t('buttoncreer')} onPress={() => navigation.navigate("Account")}></Button>
             </View>
 
         </View>
