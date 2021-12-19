@@ -22,7 +22,7 @@ Notifications.setNotificationHandler({
 });
 
 
-export default function HomeScreen({ navigation }) {
+export default function InsertPage({ navigation }) {
     const {t} = useTranslation();
     //variables pour récuperer les champs
     const [post, setPost] = useState({
@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
         boite: ""
     })
     const [image, setImagePath] = useState(null);
-    const [img, setImageUrl] = useState("https://cjpffrmyafbesnptyfdj.supabase.in/storage/v1/object/public/image-bucket/dbff1d1c-fb21-49cf-ad79-ee8644748366.jpg");
+    const [img, setImageUrl] = useState("https://cjpffrmyafbesnptyfdj.supabase.in/storage/v1/object/public/image-bucket/Default-Image.png");
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [hasPermission, setHasPermission] = useState(null);
     const cameraRef = useRef(null);

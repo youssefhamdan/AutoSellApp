@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './HomeScreen'
+import InsertPage from './InsertPage'
 import SearchPage from './SearchPage';
 import Favorite from './Favorite';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { supabase } from "../client";
 import Settings from './Settings';
 import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
-import SuplistCar from "./SuplistCar";
+import ListCar from "./ListCar";
 import {useTranslation} from "react-i18next";
 import { Icon } from 'react-native-elements'
 const Tab = createBottomTabNavigator();
@@ -30,7 +30,7 @@ export default function NavBar() {
 
       <Tab.Screen
         name={t('titreinserer')}
-        component={HomeScreen}
+        component={InsertPage}
         options={{
           tabBarLabel: t('navinserer'),
           tabBarIcon: ({ color, size }) => (

@@ -1,54 +1,67 @@
-import React, { useEffect,useState } from 'react';
-import {
-    View,
-    Text,
-    Image,
-    ScrollView,
-} from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { supabase } from '../client';
+import React, { useState, useEffect } from 'react';
+import { Button, Card, Title } from 'react-native-paper';
+import {ScrollView, TextInput} from 'react-native';
+import 'react-native-url-polyfill/auto';
+import { color } from 'react-native-elements/dist/helpers';
+import {useTranslation} from "react-i18next";
 
-export default function ListCar() {
+export default function ListCar({route,navigation}) {
+    const {t} = useTranslation();
+    const [posts, setPosts] = useState([]);
+    const {searchData} = route.params;
+    
+    useEffect(() => { 
+       fetchPosts()
+    }, [])
+
+    
+
+    async function fetchPosts() {
+        console.log("QUERY "+searchData);
+        fetch(searchData, {
+            method: 'GET',
+            headers: {
+              'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzODE3ODU1OSwiZXhwIjoxOTUzNzU0NTU5fQ.POaMQPFZdcjRpLsmZFgwZ4-Iiw3i5hN9EtTG6yzu21I'
+            }})
+            .then((response) => response.json())
+            .then((json) => setPosts(json))
+            .catch((error) => console.error(error))  
+    }
 
 
-    const posts = [
-        {
-            titre: 'BMW M3 F80',
-            name: 'https://www.tuningblog.eu/wp-content/uploads/2018/05/BMW-M3-F80-GTS-FF-Retrofittings-Tuning-2018-16.jpg'
-        },
-        {
-            titre: 'BMW M5 F90',
-            name: 'https://www.tuningblog.eu/wp-content/uploads/2019/02/BMW-M3-Competition-CS-Sportfedern-Tuning-1.jpg'
-        },
-        {
-            titre: 'AUDI RS3 8V',
-            name: 'https://maxton-design.fr/fre_pl_Lame-Du-Pare-Chocs-Avant-Splitter-V-2-Audi-RS3-8V-FL-Sedan-7763_1.jpg'
-        },
-    ]
+    
 
+    
     return (
         <>
-    
-         <ScrollView>
-        {
-            posts.map((u, i) => {
-                return (
-                    <Card>
+            <ScrollView>
 
-                        <Card.Content>
-                            <Title>{u.titre}</Title>
-                        </Card.Content>
-                        <Card.Cover source={{uri:u.name}} />
-                        <Card.Actions>
-                            <Button>ENTER</Button>
-                        </Card.Actions>
 
-                    </Card>
-                )
-            })
-        }
-        </ScrollView>
+                {
+                    posts.map((post,i) => {
+                        
+                        return (
+                            
+                            <Card key={i}>
+
+                                <Card.Content>
+                                    <Title>{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
+                                </Card.Content>
+                                <Card.Cover source={{ uri: post.img }} />
+                                <Card.Actions style={{justifyContent: 'center',backgroundColor: '#C9CCD5',marginTop:7,marginHorizontal:4,borderRadius: 10,}}>
+                                    <Button onPress={() =>
+                            navigation.navigate('CarPage',{ idAnnonce:post.id })
+                        } color={"black" }>{t('buttonvisualiser')}</Button>
+                                </Card.Actions>
+
+                            </Card>
+                           
+                        )
+                    })
+                }
+            </ScrollView>
         </>
     );
-
 }
 

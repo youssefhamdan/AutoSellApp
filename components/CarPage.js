@@ -160,11 +160,6 @@ export default function CarPage({ route, navigation }) {
                 }
 
                 <View>
-
-                    <Button onPress={()=>{
-                        change("en");
-                    }}></Button>
-
                     {latitude != 0 && longitude != 0 ? (
                         <MapView
                             style={{ flex: 1, height: 300, width: 500 }}

@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import NavBar from './components/NavBar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './components/HomeScreen';
-import SuplistCar from './components/SuplistCar';
+import InsertPage from './components/InsertPage';
+import ListCar from './components/ListCar';
 import carPage from './components/CarPage';
 import SearchPage from './components/SearchPage';
 import { supabase } from "./client"
@@ -38,10 +38,10 @@ export default function App() {
        {auth ?<><Stack.Screen name="navBar" component={NavBar} options={{ headerShown: false }} />
           <Stack.Screen
             name="Home"
-            component={HomeScreen}
+            component={InsertPage}
             options={{ title: 'Home' }}
           />
-          <Stack.Screen options={{ title: t('titrelisteannonce') }} name="List" component={SuplistCar} />
+          <Stack.Screen options={{ title: t('titrelisteannonce') }} name="List" component={ListCar} />
           <Stack.Screen name="Search" component={SearchPage} />
           <Stack.Screen options={{ title: t('annonce') }} name="CarPage" component={carPage} />
           <Stack.Screen name="Favoris" component={Favorite} />
