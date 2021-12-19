@@ -13,6 +13,7 @@ import AuthScreen from './components/AuthScreen';
 import CreateAccount from './components/CreateAccount';
 import Favorite from "./components/Favorite";
 import i18n from "./i18n/i18n";
+import Settings from "./components/Settings";
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,7 @@ export default function App() {
           </>: <>
           <Stack.Screen options={{ title: 'Authentification' }} name="Authentification" component={AuthScreen} />
           <Stack.Screen options={{ title: 'Créer un compte' }} name="Account" component={CreateAccount} />
+          <Stack.Screen options={{ title: 'Settings' }} name="Settings" component={Settings} />
           </>
           }
         </Stack.Navigator>

@@ -5,10 +5,11 @@ import SearchPage from './SearchPage';
 import Favorite from './Favorite';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { supabase } from "../client";
-import SignOut from './SignOut';
+import Settings from './Settings';
 import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
 import SuplistCar from "./SuplistCar";
 import {useTranslation} from "react-i18next";
+import { Icon } from 'react-native-elements'
 const Tab = createBottomTabNavigator();
 
 export default function NavBar() {
@@ -22,7 +23,7 @@ export default function NavBar() {
         options={{
           tabBarLabel: t('navrecherche'),
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+              <Icon type='antdesign' name="search1" color={color} size={size} />
           ),
         }}
       />
@@ -51,11 +52,11 @@ export default function NavBar() {
 
       <Tab.Screen
         name="SignOut"
-        component={SignOut}
+        component={Settings}
         options={{
           tabBarLabel: 'Deconnexion',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="logout" color={color} size={size} />
+            <Icon type='antdesign' name="setting" color={color} size={size} />
           ),
         }}
       />

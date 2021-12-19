@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../client";
 import {Button} from "react-native-elements";
-import {useTranslation} from "react-i18*next";
+import {useTranslation} from "react-i18next";
 import i18n from "../i18n/i18n";
 import {Picker} from "@react-native-picker/picker";
-import {StyleSheet} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
+import {Card} from "react-native-paper";
 
-export default function SignOut({ navigation }) {
+
+export default function Settings({ navigation }) {
     const { t,i18n } = useTranslation();
+    const [post, setPost] = useState({
+        fabricant: "",
+        modele: "",
+        carburant: "",
+        km: "",
+        prix: "",
+        annee: "",
+        puissance: "",
+        img: "",
+        boite: ""
+    })
     const [language, setLanguage] = useState("fr");
     // useEffect(()=>{
     //         supabase.auth.signOut();
@@ -17,19 +30,33 @@ export default function SignOut({ navigation }) {
         i18n.changeLanguage(data).then(r => console.log("salut"))
     }
 
+
     return (<>
+
+            <Text style={{ fontSize: 15, fontWeight: 'bold' }}> {t('greeting')} </Text>
+
     <Picker
         style={styles.input}
         //onValueChange={(itemValue, ) => change(itemValue),console.log(itemValue)}
-        //selectedValue={language}
+        selectedValue={language}
         onValueChange={(itemValue) => change(itemValue
-        , console.log(itemValue))}
+        , console.log(itemValue),setLanguage(itemValue))}
     >
         <Picker.Item label="Francais" value="fr" />
         <Picker.Item label="English" value="en" />
 
 
-    </Picker></>);
+    </Picker>
+        <Button
+
+            onPress={() => {
+                supabase.auth.signOut();
+            }
+            }
+            title="Déconnexion"
+            type="solid"
+        />
+    </>);
 }
 
 const styles = StyleSheet.create({
