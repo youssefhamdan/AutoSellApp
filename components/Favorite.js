@@ -40,7 +40,6 @@ export default function Favorite({navigation}) {
 
 
     async function fetchFav() {
-        //console.log("id user : " + supabase.auth.user().id)
         const {data, error} = await supabase
             .from('favoritePost')
             .select()
@@ -48,19 +47,14 @@ export default function Favorite({navigation}) {
             .eq('idUser', supabase.auth.user().id);
         //.eq('id', idAnnonce);
         setFav(data)
-        //console.log("posts : " + fav[0].idPost)
-        //console.log("posts : " + data)
 
     }
 
     async function fetchPosts() {
-        //console.log("table post : ")
         const {data, error} = await supabase
             .from('posts')
             .select()
         setPosts(data)
-        //console.log("test: " + posts[0].fabricant)
-        //console.log("posts : " + data)
     }
 
     function assignPostsInFav(){

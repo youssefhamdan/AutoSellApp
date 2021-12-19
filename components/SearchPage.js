@@ -23,7 +23,6 @@ export default function SearchPage({ navigation }) {
 
 
     useEffect(() => {
-        //console.log(supabase.auth.user().id)
         fetch('https://listing-creation.api.autoscout24.com/makes')
             .then((response) => response.json())
             .then((json) => SetAllMakes(json.makes.slice(800, 900)))
@@ -177,9 +176,7 @@ export default function SearchPage({ navigation }) {
                 <View style={styles.check}>
                     <Button
                         onPress={() => {
-                            //console.log("POST", fabricant + "/" + modele + "/" + prix + "/" + annee + "/" + carburant + "/" + km + "/" + puissance + "/" + boite)
                             queryMade();
-                            console.log("POST", query);
                             navigation.navigate('List', { searchData: query })
                         }}
                         title={t('buttonrecherche')}

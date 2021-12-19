@@ -18,7 +18,6 @@ export default function ListCar({route,navigation}) {
     
 
     async function fetchPosts() {
-        console.log("QUERY "+searchData);
         fetch(searchData, {
             method: 'GET',
             headers: {

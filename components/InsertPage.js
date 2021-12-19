@@ -104,7 +104,6 @@ export default function InsertPage({ navigation }) {
 
     //creation d'un post
     async function createPost() {
-        console.log(img);
         const { data, error } = await supabase.from('posts').insert([{
             fabricant,
             modele,
@@ -168,14 +167,12 @@ export default function InsertPage({ navigation }) {
 
     //recuperation lien de l'image dans le bucket de base de donées pour la stocker dans un champ de la table post
     const listLoad = async (filename) => {
-        console.log("filename", filename);
         const res = supabase
             .storage
             .from('image-bucket')
             .getPublicUrl(filename);
 
         setImageUrl(res.data.publicURL);
-        console.log("PUBLICURL", res.data.publicURL)
     }
 
     //affichage page dépendant des droits(utilisateur a accepter camera ou non)
@@ -220,7 +217,6 @@ export default function InsertPage({ navigation }) {
             quality: 1,
         });
 
-        console.log("RES", result);
 
         if (!result.cancelled) {
 
@@ -234,7 +230,6 @@ export default function InsertPage({ navigation }) {
     //prendre image avec appareil photo du telephone
     const takePhoto = async () => {
         if (cameraRef) {
-            console.log('in take picture');
             try {
                 let photo = await cameraRef.current.takePictureAsync({
                     allowsEditing: true,
@@ -243,7 +238,6 @@ export default function InsertPage({ navigation }) {
                 });
                 return photo;
             } catch (e) {
-                console.log(e)
             }
         }
     }

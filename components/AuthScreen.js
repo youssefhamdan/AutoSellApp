@@ -13,11 +13,10 @@ export default function AuthScreen({ navigation }) {
             password: ''
         }
     });
-    const onSubmit = data => { console.log(data), signIn(data) };
+    const onSubmit = data => { signIn(data) };
 
     async function signIn(data) {
         const { user, session, error } = await supabase.auth.signIn(data);
-        //GESTION ERROR
     }
 
     return (

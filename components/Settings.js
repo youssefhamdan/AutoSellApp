@@ -27,7 +27,7 @@ export default function Settings({ navigation }) {
     // });
 
     const change = (data) => {
-        i18n.changeLanguage(data).then(r => console.log("salut"))
+        i18n.changeLanguage(data)
     }
 
 
@@ -39,10 +39,9 @@ export default function Settings({ navigation }) {
 
             <Picker
                 style={styles.input}
-                //onValueChange={(itemValue, ) => change(itemValue),console.log(itemValue)}
                 selectedValue={language}
                 onValueChange={(itemValue) => change(itemValue
-                    , console.log(itemValue), setLanguage(itemValue))}
+                    ,setLanguage(itemValue))}
             >
                 <Picker.Item label={t('langue')} value="" />
                 <Picker.Item label="Francais" value="fr" />

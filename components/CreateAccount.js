@@ -13,7 +13,7 @@ export default function CreateAccount({ navigation }) {
             password: ''
         }
     });
-    const onSubmit = data => { console.log(data), signup(data) };
+    const onSubmit = data => { signup(data) };
 
     async function signup(data) {
         const { user, session, error } = await supabase.auth.signUp(data);

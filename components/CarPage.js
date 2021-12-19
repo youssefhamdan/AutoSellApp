@@ -39,7 +39,6 @@ export default function CarPage({ route, navigation }) {
     }
 
     async function getLocation(location) {
-        console.log("location", location);
         let url = 'http://open.mapquestapi.com/geocoding/v1/address?key=MM0QCZCk9JEAMjHj3mDc7AyxUvunobQ4&location=' + location
         await fetch(url)
             .then((response) => response.json())
@@ -49,10 +48,8 @@ export default function CarPage({ route, navigation }) {
                 setLongitude(json.results[0].locations[0].latLng.lng)
                 setLongitudeD(json.results[0].locations[0].displayLatLng.lng)
                 setLatitudeD(json.results[0].locations[0].displayLatLng.lat)
-                console.log(json.results[0].locations[0].latLng.lat + " ////" + json.results[0].locations[0].latLng.lng)
             })
             .catch((error) => console.error(error))
-        console.log(typeof (latitude) + "///" + typeof (longitude))
     }
 
     async function addFavoris() {
@@ -76,7 +73,6 @@ export default function CarPage({ route, navigation }) {
             .select()
             .eq('idPost', idPost)
             .eq('idUser', supabase.auth.user().id);
-        console.log(data);
         if (data != "") {
             setFavoris(true)
         } else {
@@ -85,7 +81,7 @@ export default function CarPage({ route, navigation }) {
     }
 
     const change = (data) => {
-        i18n.changeLanguage(data).then(r => console.log("salut"))
+        i18n.changeLanguage(data)
     } 
 
 
