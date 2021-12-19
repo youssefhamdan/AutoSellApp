@@ -8,17 +8,19 @@ import { supabase } from "../client";
 import SignOut from './SignOut';
 import { View, Button, StyleSheet, ScrollView, Text } from 'react-native';
 import SuplistCar from "./SuplistCar";
+import {useTranslation} from "react-i18next";
 const Tab = createBottomTabNavigator();
 
 export default function NavBar() {
+  const {t} = useTranslation();
   return (
 
     <Tab.Navigator>
       <Tab.Screen
-        name="Recherche"
+        name={t('titrerecherche')}
         component={SearchPage}
         options={{
-          tabBarLabel: 'Recherche',
+          tabBarLabel: t('navrecherche'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),

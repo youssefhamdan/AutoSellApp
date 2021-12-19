@@ -1,0 +1,24 @@
+{
+
+
+    "greeting": "Salut",
+    "marksTripsTitle": "Your Marks Trips",
+    "calculDevise": "Calculate a currency of money",
+    "calculDeviseTitle": "Calculate Currency",
+    "selectDeviseTitle": "Select a currency\",",
+    "location": "Location",
+
+    "titrerecherche":"Recherche",
+    "fabricant":"Fabricant",
+    "modele":"Modèle",
+    "prixmax":"Prix max",
+    "anneemin":"Année min",
+    "carburant":"Carburant",
+    "kilometragemax":"Kilométrage max",
+    "puissancemax" : "Puissance max",
+    "boitedevitesse":"Boite de vitesse",
+    "buttonrecherche":"Rechercher",
+    "navrecherche":"Recherche"
+
+    
+}

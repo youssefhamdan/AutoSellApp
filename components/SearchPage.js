@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from "react
 import { Button } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import { supabase } from "../client";
+import {useTranslation} from "react-i18next";
 
 export default function SearchPage({ navigation }) {
     var query = "https://cjpffrmyafbesnptyfdj.supabase.co/rest/v1/posts?select=*";
@@ -16,6 +17,7 @@ export default function SearchPage({ navigation }) {
     const [km, setKm] = useState("");
     const [puissance, setPuissance] = useState("");
     const [boite, setBoite] = useState("");
+    const { t} = useTranslation();
 
 
 
@@ -84,7 +86,7 @@ export default function SearchPage({ navigation }) {
                     }}
 
                 >
-                    <Picker.Item label="Fabricant" value="" />
+                    <Picker.Item label={t('fabricant')} value="" />
                     {
 
                         allMakes.map((u, i) => {
@@ -104,7 +106,7 @@ export default function SearchPage({ navigation }) {
                     }}
                     selectedValue={modele}
                 >
-                    <Picker.Item label="Modele" value="" />
+                    <Picker.Item label={t('modele')} value="" />
                     {
 
                         allModels.map((u, i) => {
@@ -119,14 +121,14 @@ export default function SearchPage({ navigation }) {
                 <TextInput
                     placeholderTextColor='black'
                     style={styles.input}
-                    placeholder="Prix Max"
+                    placeholder={t('prixmax')}
                     onChangeText={(v) => setPrix(v)}
                     keyboardType="numeric"
                 />
                 <TextInput
                     placeholderTextColor='black'
                     style={styles.input}
-                    placeholder="Année Min"
+                    placeholder={t('anneemin')}
                     keyboardType="numeric"
                     onChangeText={(v) => setAnnee(v)}
 
@@ -138,7 +140,7 @@ export default function SearchPage({ navigation }) {
                     selectedValue={carburant}
                 >
 
-                    <Picker.Item label="Carburant" value="" />
+                    <Picker.Item label={t('carburant')} value="" />
                     <Picker.Item label="Essence" value="Essence" />
                     <Picker.Item label="Diesel" value="Diesel" />
                     <Picker.Item label="Hybride" value="Hybride" />
@@ -147,7 +149,7 @@ export default function SearchPage({ navigation }) {
                 <TextInput
                     placeholderTextColor='black'
                     style={styles.input}
-                    placeholder="Kilométrage Max"
+                    placeholder={t('kilometragemax')}
                     keyboardType="numeric"
                     onChangeText={(v) => setKm(v)}
                 />
@@ -156,7 +158,7 @@ export default function SearchPage({ navigation }) {
                     placeholderTextColor='black'
                     keyboardType="numeric"
                     style={styles.input}
-                    placeholder="Puissance Max"
+                    placeholder={t('puissancemax')}
 
                     onChangeText={(v) => setPuissance(v)}
                 />
@@ -167,7 +169,7 @@ export default function SearchPage({ navigation }) {
                     onValueChange={(itemValue) => setBoite(itemValue)}
                     selectedValue={boite}
                 >
-                    <Picker.Item label="Boite de vitesse" value="" />
+                    <Picker.Item label={t('boitedevitesse')} value="" />
                     <Picker.Item label="Manuelle" value="Manuelle" />
                     <Picker.Item label="Automatique" value="Automatique" />
                 </Picker>
@@ -180,7 +182,7 @@ export default function SearchPage({ navigation }) {
                             console.log("POST", query);
                             navigation.navigate('List', { searchData: query })
                         }}
-                        title="Recherche"
+                        title={t('buttonrecherche')}
                         type="solid"
                     />
 

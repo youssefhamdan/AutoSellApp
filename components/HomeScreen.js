@@ -11,6 +11,7 @@ import { Button } from 'react-native-elements';
 import { supabase } from "../client";
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import {useTranslation} from "react-i18next";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -22,6 +23,7 @@ Notifications.setNotificationHandler({
 
 
 export default function HomeScreen({ navigation }) {
+    const { t} = useTranslation();
     //variables pour récuperer les champs
     const [post, setPost] = useState({
         fabricant: "",

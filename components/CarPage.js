@@ -162,7 +162,7 @@ export default function CarPage({ route, navigation }) {
                 <View>
 
                     <Button onPress={()=>{
-                        change("fr");
+                        change("en");
                     }}></Button>
 
                     {latitude != 0 && longitude != 0 ? (
