@@ -254,7 +254,6 @@ export default function HomeScreen({ navigation }) {
 
                     <View>
                         <Picker
-                            placeholder="test"
                             style={styles.input}
                             onValueChange={(itemValue, itemIndex) => setPost({
                                 ...post,
