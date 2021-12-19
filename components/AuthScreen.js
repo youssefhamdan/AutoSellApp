@@ -20,7 +20,7 @@ export default function AuthScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Email Adress</Text>
+            <Text style={styles.text}>Email</Text>
             <Controller
                 control={control}
                 rules={{
@@ -39,7 +39,7 @@ export default function AuthScreen({ navigation }) {
             />
             {errors.email && <Text style={styles.textError}>This is required.</Text>}
 
-            <Text style={styles.text}>Password</Text>
+            <Text style={styles.text}>Mot de passe</Text>
             <Controller
                 control={control}
                 rules={{
@@ -48,7 +48,7 @@ export default function AuthScreen({ navigation }) {
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                         secureTextEntry={true}
-                        placeholder='password'
+                        placeholder='mot de passe'
                         style={styles.input}
                         onBlur={onBlur}
                         onChangeText={onChange}
@@ -60,9 +60,9 @@ export default function AuthScreen({ navigation }) {
             {errors.password && <Text style={styles.textError}>This is required.</Text>}
 
             <View style={styles.check}>
-                <Button title="LOGIN" onPress={handleSubmit(onSubmit)}></Button>
+                <Button title="Se connecter " onPress={handleSubmit(onSubmit)}></Button>
                 <View style={styles.button}></View>
-                <Button title="CREATE ACCOUNT" onPress={() => navigation.navigate("CreateAccount")}></Button>
+                <Button title="Créer un compte " onPress={() => navigation.navigate("Account")}></Button>
             </View>
 
         </View>

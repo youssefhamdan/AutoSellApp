@@ -85,7 +85,6 @@ export default function HomeScreen({ navigation }) {
     async function verifPost() {
 
         if (fabricant != "" && modele != "" && annee != "" && prix != "" && annee != "" && km != "" && puissance != "" && location != "") {
-            getLocation(location)
             createPost()
             let stringNotification = "L'annonce "+fabricant+" "+modele+" a ete inserer";
             schedulePushNotification("Annonce insérer", stringNotification);
@@ -130,7 +129,9 @@ export default function HomeScreen({ navigation }) {
             boite: ""
         })
         setImageUrl("")
-        //alert(error.message)
+        if(error){
+            alert(error.message)
+        }
         navigation.navigate('Search')
 
     }

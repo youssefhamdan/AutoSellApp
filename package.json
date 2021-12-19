@@ -7,7 +7,13 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "sideEffects": [
+    "./i18n/i18n.js"
+  ],
   "dependencies": {
+    "i18next": "^21.5.4",
+    "next-i18next": "^10.0.1",
+    "react-i18next": "^11.14.3",
     "@capacitor/camera": "^1.2.1",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.5.0",

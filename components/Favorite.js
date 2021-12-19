@@ -86,6 +86,7 @@ export default function Favorite({navigation}) {
                         />
                     }
                 >
+                    
                     {
                         postsInFav.map((post,i) => {
                             return (
@@ -94,10 +95,10 @@ export default function Favorite({navigation}) {
                                         <Title  >{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
                                     </Card.Content>
                                     <Card.Cover  source={{ uri: post.img }} />
-                                    <Card.Actions>
+                                    <Card.Actions style={{justifyContent: 'center',backgroundColor: '#C9CCD5',marginTop:7,marginHorizontal:4,borderRadius: 10,}}>
                                         <Button  onPress={() =>
                                             navigation.navigate('CarPage',{ idAnnonce:post.id })
-                                        }>ENTER</Button>
+                                        } color={"black" } >ENTER</Button>
                                     </Card.Actions>
                                 </Card>
                             )

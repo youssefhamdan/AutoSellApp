@@ -15,12 +15,11 @@ export default function CreateAccount({ navigation }) {
 
     async function signup(data) {
         const { user, session, error } = await supabase.auth.signUp(data);
-        //GESTION ERROR
     }
     return (
 
         <View style={styles.container}>
-                <Text style={styles.text}>Email Adress</Text>
+                <Text style={styles.text}>Email</Text>
                 <Controller
                     control={control}
                     rules={{
@@ -39,7 +38,7 @@ export default function CreateAccount({ navigation }) {
                 />
                 {errors.email && <Text style={styles.textError}>This is required.</Text>}
 
-                <Text style={styles.text}>Password</Text>
+                <Text style={styles.text}>Mot de passe</Text>
                 <Controller
                     control={control}
                     rules={{
@@ -48,7 +47,7 @@ export default function CreateAccount({ navigation }) {
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
                             secureTextEntry={true}
-                            placeholder='password'
+                            placeholder='mot de passe'
                             style={styles.input}
                             onBlur={onBlur}
                             onChangeText={onChange}
@@ -60,7 +59,7 @@ export default function CreateAccount({ navigation }) {
                 {errors.password && <Text style={styles.textError}>This is required.</Text>}
 
                 <View style={styles.check}>
-                    <Button title="SIGN UP" onPress={handleSubmit(onSubmit)}></Button>
+                    <Button title="S’inscrire" onPress={handleSubmit(onSubmit)}></Button>
                 </View>
                 <View style={styles.button}></View>
         </View>

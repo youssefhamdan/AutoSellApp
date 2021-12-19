@@ -7,6 +7,9 @@ import { SocialIcon } from "react-native-elements/dist/social/SocialIcon";
 import { Button } from 'react-native-elements';
 //import Icon from 'react-native-vector-icons/AntDesign';
 import { Icon } from 'react-native-elements'
+import {useTranslation} from "react-i18next";
+import i18n from "../i18n/i18n";
+
 
 export default function CarPage({ route, navigation }) {
     const { idAnnonce } = route.params;
@@ -18,6 +21,8 @@ export default function CarPage({ route, navigation }) {
     const [longitudeD, setLongitudeD] = useState();
     const [x, setX] = useState(51.053829);
     const [y, setY] = useState(3.725012);
+    const { t,i18n } = useTranslation();
+
     useEffect(() => {
         fetchPosts();
     }, [])
@@ -61,23 +66,27 @@ export default function CarPage({ route, navigation }) {
     async function deleteFavoris() {
         setFavoris(false);
         const { data, error } = await supabase.from('favoritePost')
-        .delete()
-        .match({idPost:post.id,idUser:supabase.auth.user().id});
+            .delete()
+            .match({ idPost: post.id, idUser: supabase.auth.user().id });
     }
 
     async function fetchFav(idPost) {
-        const {data, error} = await supabase
+        const { data, error } = await supabase
             .from('favoritePost')
             .select()
-            .eq('idPost',idPost)
-            .eq('idUser',supabase.auth.user().id);
+            .eq('idPost', idPost)
+            .eq('idUser', supabase.auth.user().id);
         console.log(data);
-        if(data!=""){
+        if (data != "") {
             setFavoris(true)
-        }else{
+        } else {
             setFavoris(false)
         }
     }
+
+    const change = (data) => {
+        i18n.changeLanguage(data).then(r => console.log("salut"))
+    } 
 
 
     return (
@@ -87,28 +96,28 @@ export default function CarPage({ route, navigation }) {
                 {
                     <View>
                         <View style={styles.buttonView}>
-                        
-                            
-                           {favoris?( 
-                                    <Icon
-                                        onPress={() => deleteFavoris()}
-                                        type='antdesign'
-                                        name="star"
-                                        size={35}
-                                        color="black"
-                                    />
-                              
-                            ):(
-                                
-                                    <Icon
-                                        onPress={() => addFavoris()}
-                                        type='antdesign'
-                                        name="staro"
-                                        size={35}
-                                        color="black"
-                                    />
-                               
-                                
+
+
+                            {favoris ? (
+                                <Icon
+                                    onPress={() => deleteFavoris()}
+                                    type='antdesign'
+                                    name="star"
+                                    size={35}
+                                    color="black"
+                                />
+
+                            ) : (
+
+                                <Icon
+                                    onPress={() => addFavoris()}
+                                    type='antdesign'
+                                    name="staro"
+                                    size={35}
+                                    color="black"
+                                />
+
+
                             )}
                         </View>
                         <View style={{ margin: 25 }}>
@@ -116,11 +125,11 @@ export default function CarPage({ route, navigation }) {
                         </View>
                         <Image source={{ uri: post.img }} style={{ width: '100%', height: 400 }} />
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold'}}> {post.prix} €</Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {post.prix} €</Text>
                         </View>
                         <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
                         <View style={{ margin: 25 }}>
-                            <Text style={{ fontSize: 20, fontWeight: 'bold'}}> Détails </Text>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {t('greeting')} </Text>
                             <View style={{ marginTop: 25 }}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Marque <Text style={{ color: '#333', marginLeft: 15 }}> {post.fabricant} </Text></Text>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Modèle <Text style={{ color: '#333', marginLeft: 15 }}> {post.modele} </Text></Text>
@@ -128,16 +137,33 @@ export default function CarPage({ route, navigation }) {
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Carburant <Text style={{ color: '#333', marginLeft: 15 }}> {post.carburant} </Text></Text>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Kilométrage <Text style={{ color: '#333', marginLeft: 15 }}> {post.km} Km</Text></Text>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Puissance <Text style={{ color: '#333', marginLeft: 15 }}> {post.puissance} Ch </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494' ,marginBottom: 10 }}> Boîte <Text style={{ color: '#333', marginLeft: 15 }}> {post.boite} </Text></Text>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494' ,marginBottom: 10 }}> Location  <Text style={{ color: '#333', marginLeft: 15 }}> {post.location} </Text></Text>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Boîte <Text style={{ color: '#333', marginLeft: 15 }}> {post.boite} </Text></Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
+                        <View style={{ margin: 25 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}> Contact </Text>
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> E-mail  <Text style={{ color: '#333', marginLeft: 15 }}> {post.contact} </Text></Text>
+                            </View>
+                        </View>
+                        <View style={{ height: 1, backgroundColor: "#d3d3d3" }} />
+                        <View style={{ margin: 25 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'black' }}> Location </Text>
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#949494', marginBottom: 10 }}> Ville  <Text style={{ color: '#333', marginLeft: 15 }}> {post.location} </Text></Text>
                             </View>
                         </View>
                     </View>
+                    
 
                 }
 
-
                 <View>
+
+                    <Button onPress={()=>{
+                        change("fr");
+                    }}></Button>
 
                     {latitude != 0 && longitude != 0 ? (
                         <MapView
@@ -172,7 +198,7 @@ export default function CarPage({ route, navigation }) {
 const styles = StyleSheet.create({
     buttonView: {
         width: 60,
-        height:100,
+        height: 100,
         position: 'absolute',
         right: 0,
         marginRight: 12,

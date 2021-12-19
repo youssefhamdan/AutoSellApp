@@ -37,7 +37,7 @@ export default function NavBar() {
       />
 
       <Tab.Screen
-        name="Espace favoris"
+        name="Mes Favoris"
         component={Favorite}
         options={{
           tabBarLabel: 'Mes Favoris',

@@ -40,7 +40,7 @@ export default function SearchPage({ navigation }) {
             query += "&modele=eq." + modele;
         }
         if (prix != "") {
-            query += "&prix=gte." + prix;
+            query += "&prix=lte." + prix;
         }
         if (annee != "") {
             query += "&annee=gte." + annee;
@@ -49,10 +49,10 @@ export default function SearchPage({ navigation }) {
             query += "&carburant=eq." + carburant;
         }
         if (km != "") {
-            query += "&km=gte." + km;
+            query += "&km=lte." + km;
         }
         if (puissance != "") {
-            query += "&puissance=gte." + puissance;
+            query += "&puissance=lte." + puissance;
         }
         if (boite != "") {
             query += "&boite=eq." + boite;
@@ -126,7 +126,7 @@ export default function SearchPage({ navigation }) {
                 <TextInput
                     placeholderTextColor='black'
                     style={styles.input}
-                    placeholder="Année Max"
+                    placeholder="Année Min"
                     keyboardType="numeric"
                     onChangeText={(v) => setAnnee(v)}
 

@@ -12,6 +12,7 @@ import { supabase } from "./client"
 import AuthScreen from './components/AuthScreen';
 import CreateAccount from './components/CreateAccount';
 import Favorite from "./components/Favorite";
+import i18n from "./i18n/i18n";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,13 +38,13 @@ export default function App() {
             component={HomeScreen}
             options={{ title: 'Home' }}
           />
-          <Stack.Screen name="List" component={SuplistCar} />
+          <Stack.Screen options={{ title: 'Liste d\'annonces' }} name="List" component={SuplistCar} />
           <Stack.Screen name="Search" component={SearchPage} />
-          <Stack.Screen name="CarPage" component={carPage} />
+          <Stack.Screen options={{ title: 'Annonce' }} name="CarPage" component={carPage} />
           <Stack.Screen name="Favoris" component={Favorite} />
           </>: <>
-          <Stack.Screen name="Auth" component={AuthScreen} />
-          <Stack.Screen name="CreateAccount" component={CreateAccount} />
+          <Stack.Screen options={{ title: 'Authentification' }} name="Authentification" component={AuthScreen} />
+          <Stack.Screen options={{ title: 'Créer un compte' }} name="Account" component={CreateAccount} />
           </>
           }
         </Stack.Navigator>

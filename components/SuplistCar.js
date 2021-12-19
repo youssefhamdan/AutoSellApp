@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Title } from 'react-native-paper';
 import {ScrollView, TextInput} from 'react-native';
 import 'react-native-url-polyfill/auto';
+import { color } from 'react-native-elements/dist/helpers';
 
 export default function SuplistCar({route,navigation}) {
     const [posts, setPosts] = useState([]);
@@ -46,10 +47,10 @@ export default function SuplistCar({route,navigation}) {
                                     <Title>{ post.fabricant + " "+ post.modele + " " +post.annee}</Title>
                                 </Card.Content>
                                 <Card.Cover source={{ uri: post.img }} />
-                                <Card.Actions >
+                                <Card.Actions style={{justifyContent: 'center',backgroundColor: '#C9CCD5',marginTop:7,marginHorizontal:4,borderRadius: 10,}}>
                                     <Button onPress={() =>
                             navigation.navigate('CarPage',{ idAnnonce:post.id })
-                        }>ENTER</Button>
+                        } color={"black" }>Visualiser</Button>
                                 </Card.Actions>
 
                             </Card>
